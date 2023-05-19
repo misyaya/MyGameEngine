@@ -12,7 +12,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	wc.cbSize = sizeof(WNDCLASSEX);             //この構造体のサイズ
 	wc.hInstance = hInstance;                   //インスタンスハンドル
 	wc.lpszClassName = "SampleGame";            //ウィンドウクラス名
-	wc.lpfnWndProc = WndProc;                   //ウィンドウプロシージャ
+	wc.lpfnWndProc = WndProc;                   //ウィンドウプロシージャ 名
 	wc.style = CS_VREDRAW | CS_HREDRAW;         //スタイル（デフォルト）
 	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION); //アイコン
 	wc.hIconSm = LoadIcon(NULL, IDI_WINLOGO);   //小さいアイコン
@@ -28,8 +28,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	HWND hWnd = CreateWindow(
 		"SampleGame",         //ウィンドウクラス名
 		"サンプルゲーム",     //タイトルバーに表示する内容
-		WS_OVERLAPPEDWINDOW, //スタイル（普通のウィンドウ）
-		CW_USEDEFAULT,       //表示位置左（おまかせ）
+		WS_OVERLAPPEDWINDOW|WS_VISIBLE, //スタイル（普通のウィンドウ）
+		CW_USEDEFAULT,       //表示位置左（おまかせ = CW_USEDEFAULT）
 		CW_USEDEFAULT,       //表示位置上（おまかせ）
 		800,                 //ウィンドウ幅
 		600,                 //ウィンドウ高さ
@@ -39,7 +39,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		NULL                 //パラメータ（なし）
 	);
 	//ウィンドウを表示
-	ShowWindow(hWnd, nCmdShow);
+//	ShowWindow(hWnd, nCmdShow);
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -70,9 +70,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
-	case WM_DESTROY: //Windowを閉じたら
-		PostQuitMessage(0);  //プログラム終了
-		return 0;
+
+//	case WM_KEYUP:
+//		PostQuitMessage(0);  //プログラム終了(これ消すとWindowが閉じてもプログラムが動き続ける）
+//		return 0;
+//
+////	case WM_DESTROY: //Windowを閉じたら
+//		PostQuitMessage(0);  //プログラム終了(これ消すとWindowが閉じてもプログラムが動き続ける）
+//		return 0;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
