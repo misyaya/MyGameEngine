@@ -70,14 +70,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
-
-//	case WM_KEYUP:
-//		PostQuitMessage(0);  //プログラム終了(これ消すとWindowが閉じてもプログラムが動き続ける）
-//		return 0;
-//
-////	case WM_DESTROY: //Windowを閉じたら
-//		PostQuitMessage(0);  //プログラム終了(これ消すとWindowが閉じてもプログラムが動き続ける）
-//		return 0;
+	case WM_DESTROY: //Windowを閉じたら
+		PostQuitMessage(0);  //プログラム終了(これ消すとWindowが閉じてもプログラムが動き続ける）
+		return 0;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
