@@ -18,7 +18,7 @@ ID3D11DeviceContext* pContext;		//デバイスコンテキスト
 IDXGISwapChain* pSwapChain;		//スワップチェイン
 ID3D11RenderTargetView* pRenderTargetView;	//レンダーターゲットビュー
 
-Quad* prototype = new Quad;
+
 
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
@@ -62,7 +62,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	);
 	//ウィンドウを表示
 //	ShowWindow(hWnd, nCmdShow);
-	
+	Quad* prototype = new Quad;
 
 	//Direct3D初期化
 	Direct3D::Initialize(winW, winH, hWnd);
