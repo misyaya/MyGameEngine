@@ -1,6 +1,7 @@
 //インクルード
 #include <Windows.h>
 #include "Direct3D.h"
+#include "Quad.h"
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -16,6 +17,8 @@ ID3D11Device* pDevice;		//デバイス
 ID3D11DeviceContext* pContext;		//デバイスコンテキスト
 IDXGISwapChain* pSwapChain;		//スワップチェイン
 ID3D11RenderTargetView* pRenderTargetView;	//レンダーターゲットビュー
+
+Quad* prototype = new Quad;
 
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
@@ -59,9 +62,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	);
 	//ウィンドウを表示
 //	ShowWindow(hWnd, nCmdShow);
+	
 
 	//Direct3D初期化
 	Direct3D::Initialize(winW, winH, hWnd);
+	prototype->Initialize();
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -80,15 +85,18 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		{
 			//ゲームの処理
 			Direct3D::BeginDraw();
-
+			prototype->Draw();
 			//描画処理
 			Direct3D::EndDraw();
-
+			
+			
 		}
 	}
 	//解放処理
 	Direct3D::Release();
+	prototype->Release();
 
+	delete prototype;
 	return 0;
 }
 
