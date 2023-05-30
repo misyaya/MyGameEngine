@@ -114,9 +114,9 @@ void Direct3D::InitShader()
 
 	//ラスタライザ作成
 	D3D11_RASTERIZER_DESC rdc = {};
-	rdc.CullMode = D3D11_CULL_NONE; //見えないとこは書かない
-	rdc.FillMode = D3D11_FILL_WIREFRAME; //solid べた塗   Fill 塗りつぶし
-	rdc.FrontCounterClockwise = TRUE; //Clockwise 時計回り FrontClockwise 反時計周り
+	rdc.CullMode = D3D11_CULL_BACK; //CULL_BACK = 見えないとこは書かない(陰面消去)
+	rdc.FillMode = D3D11_FILL_SOLID; //solid べた塗   Fill 塗りつぶし
+	rdc.FrontCounterClockwise = FALSE; //Clockwise 時計回り FrontClockwise 反時計周り
 	pDevice->CreateRasterizerState(&rdc, &pRasterizerState);
 
 	//それぞれをデバイスコンテキストにセット
