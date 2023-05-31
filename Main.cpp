@@ -96,7 +96,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	Direct3D::Release();
 	prototype->Release();
 
-	delete prototype;
+	SAFE_DELETE(prototype);
 	return 0;
 }
 
