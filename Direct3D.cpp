@@ -66,7 +66,12 @@ void Direct3D::Initialize(int winW, int winH, HWND hWnd)
 	pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 
 	//レンダーターゲットビューを作成
-	pDevice->CreateRenderTargetView(pBackBuffer, NULL, &pRenderTargetView);
+	HRESULT hr;
+	hr = pDevice->CreateRenderTargetView(pBackBuffer, NULL, &pRenderTargetView);
+	if (hr == E_FAIL)
+	{
+		///失敗したときの処理
+	}
 
 	//一時的にバックバッファを取得しただけなので解放
 	pBackBuffer->Release();
@@ -96,6 +101,7 @@ void Direct3D::InitShader()
 	// 頂点シェーダの作成（コンパイル）
 	ID3DBlob* pCompileVS = nullptr;
 	D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "VS", "vs_5_0", NULL, 0, &pCompileVS, NULL);
+	assert(pCompileVS != nullptr);
 	pDevice->CreateVertexShader(pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), NULL, &pVertexShader);
 	
 	//頂点インプットレイアウト
@@ -104,14 +110,15 @@ void Direct3D::InitShader()
 	};
 	pDevice->CreateInputLayout(layout, 1, pCompileVS->GetBufferPointer(), pCompileVS->GetBufferSize(), &pVertexLayout);
 	
-	pCompileVS->Release();
+	SAFE_RELEASE(pCompileVS);
 
 	// ピクセルシェーダの作成（コンパイル）
 	ID3DBlob* pCompilePS = nullptr;
 	D3DCompileFromFile(L"Simple3D.hlsl", nullptr, nullptr, "PS", "ps_5_0", NULL, 0, &pCompilePS, NULL);
+	assert(pCompilePS != nullptr);
 	pDevice->CreatePixelShader(pCompilePS->GetBufferPointer(), pCompilePS->GetBufferSize(), NULL, &pPixelShader);
-	pCompilePS->Release();
-
+	SAFE_RELEASE(pCompilePS);
+	
 	//ラスタライザ作成
 	D3D11_RASTERIZER_DESC rdc = {};
 	rdc.CullMode = D3D11_CULL_BACK; //CULL_BACK = 見えないとこは書かない(陰面消去)

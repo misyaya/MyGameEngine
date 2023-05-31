@@ -62,11 +62,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	);
 	//ウィンドウを表示
 //	ShowWindow(hWnd, nCmdShow);
-	Quad* prototype = new Quad;
+	Quad* pPrototype = new Quad;
 
 	//Direct3D初期化
 	Direct3D::Initialize(winW, winH, hWnd);
-	prototype->Initialize();
+	pPrototype->Initialize();
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -85,7 +85,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		{
 			//ゲームの処理
 			Direct3D::BeginDraw();
-			prototype->Draw();
+			pPrototype->Draw();
 			//描画処理
 			Direct3D::EndDraw();
 			
@@ -94,9 +94,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	}
 	//解放処理
 	Direct3D::Release();
-	prototype->Release();
+	SAFE_RELEASE(pPrototype);
 
-	SAFE_DELETE(prototype);
+	SAFE_DELETE(pPrototype);
 	return 0;
 }
 
