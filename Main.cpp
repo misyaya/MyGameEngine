@@ -62,11 +62,24 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	);
 	//ウィンドウを表示
 //	ShowWindow(hWnd, nCmdShow);
-	Quad* pPrototype = new Quad;
 
 	//Direct3D初期化
-	Direct3D::Initialize(winW, winH, hWnd);
-	pPrototype->Initialize();
+	HRESULT hr;
+	hr = Direct3D::Initialize(winW, winH, hWnd);
+	if (FAILED(hr))
+	{
+		//エラー処理
+		MessageBox(nullptr, "Direct3Dの初期化に失敗しました", "エラー", MB_OK);
+		PostQuitMessage(0); //プログラム終了
+	}
+	Quad* pPrototype = new Quad;
+	hr = pPrototype->Initialize();
+	if (FAILED(hr))
+	{
+		//エラー処理
+		MessageBox(nullptr, "Quadの呼び出しに失敗しました", "エラー", MB_OK);
+		PostQuitMessage(0); //プログラム終了
+	}
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
