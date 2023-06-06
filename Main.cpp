@@ -73,9 +73,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		MessageBox(nullptr, "Direct3Dの初期化に失敗しました", "エラー", MB_OK);
 		PostQuitMessage(0); //プログラム終了
 	}
+
 	Camera::Initialize(winW, winH);
-	Quad* pPrototype = new Quad;
-	hr = pPrototype->Initialize();
+
+
+	Quad* pQuad = new Quad;
+	hr = pQuad->Initialize();
+	
 	if (FAILED(hr))
 	{
 		//エラー処理
@@ -100,10 +104,25 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		{
 			//カメラ更新
 			Camera::Update();
+
 			//ゲームの処理
 			Direct3D::BeginDraw();
-			pPrototype->Draw();
+			
 			//描画処理
+			XMMATRIX matR = XMMatrixRotationY(XMConvertToRadians(45));
+			XMMATRIX matT = XMMatrixTranslation(4, 0, 0);
+			XMMATRIX matS = XMMatrixScaling(1, 3, 1);
+			//XMMATRIX mat = matT * mats;
+			//XMMATRIX mat = matT * matR * matS;
+			//XMMATRIX mat = matS * XMMatrixRotationZ(XMConvertToRadians(170)) * XMMatrixTranslation(3, 0, 0);
+			
+			static int a = 0;
+			a += 1;
+
+			XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a));
+			//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a)) * matS;
+			//XMMATRIX mat = matS * XMMatrixRotationZ(XMConvertToRadians(a));
+			pQuad->Draw(mat);
 			Direct3D::EndDraw();
 			
 			
@@ -111,9 +130,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	}
 	//解放処理
 	Direct3D::Release();
-	SAFE_RELEASE(pPrototype);
+	SAFE_RELEASE(pQuad);
 
-	SAFE_DELETE(pPrototype);
+	SAFE_DELETE(pQuad);
 	return 0;
 }
 
