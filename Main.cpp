@@ -73,7 +73,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		MessageBox(nullptr, "Direct3Dの初期化に失敗しました", "エラー", MB_OK);
 		PostQuitMessage(0); //プログラム終了
 	}
-	Camera::Initialize();
+	Camera::Initialize(winW, winH);
 	Quad* pPrototype = new Quad;
 	hr = pPrototype->Initialize();
 	if (FAILED(hr))
