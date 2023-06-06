@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "Direct3D.h"
 #include "Quad.h"
+#include"Camera.h"
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -72,6 +73,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		MessageBox(nullptr, "Direct3Dの初期化に失敗しました", "エラー", MB_OK);
 		PostQuitMessage(0); //プログラム終了
 	}
+	Camera::Initialize();
 	Quad* pPrototype = new Quad;
 	hr = pPrototype->Initialize();
 	if (FAILED(hr))
@@ -96,6 +98,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		//メッセージなし
 		else
 		{
+			//カメラ更新
+			Camera::Update();
 			//ゲームの処理
 			Direct3D::BeginDraw();
 			pPrototype->Draw();
