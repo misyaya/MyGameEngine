@@ -41,6 +41,20 @@ HRESULT Dice::Initialize()
 		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(1.0f,0.0f, 0.0f, 0.0f) },	// ダイスの頂点（右上４）13
 		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(1.0f,  0.5f, 0.0f, 0.0f) },   // ダイスの頂点（右下４）14
 		{ XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.75f,  0.5f, 0.0f, 0.0f) },   // ダイスの頂点（左下４）15
+	
+		//5
+		{ XMVectorSet(1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.0f, 0.5f, 0.0f, 0.0f) },   // ダイスの頂点（左上５）16
+		{ XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.25f,  0.5f, 0.0f, 0.0f) },   // ダイスの頂点（右上５）17
+		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.25f,  1.0f, 0.0f, 0.0f) },   // ダイスの頂点（右下５）18
+		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },	// ダイスの頂点（左下５）19
+
+		//6
+		{ XMVectorSet(1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f) },	// ダイスの頂点（左上６）20
+		{ XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f) },   // ダイスの頂点（右上６）21
+		{ XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.5f,  1.0f, 0.0f, 0.0f) },   // ダイスの頂点（右下６）22
+		{ XMVectorSet(1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.25f, 1.0f, 0.0f, 0.0f) },	// ダイスの頂点（左下６）23
+
+
 	};
 
 
@@ -63,7 +77,8 @@ HRESULT Dice::Initialize()
 	}
 
 	//インデックス情報
-	int index[] = { 0,2,3, 0,1,2, 7,4,5, 7,5,6, 8,9,11, 9,10,11, 15,12,13, 15,13,14 }; //2,3,0でも3,0,2でも時計回りならいい
+	int index[] = {  0, 2, 3,  0, 1, 2,  7, 4, 5,  7, 5, 6,  8, 9,11,  9,10,11,
+					15,12,13, 15,13,14, 18,19,16, 18,16,17, 20,21,22,  20,22,23 }; //2,3,0でも3,0,2でも時計回りならいい
 
 	// インデックスバッファを生成する
 	D3D11_BUFFER_DESC   bd;
@@ -139,7 +154,7 @@ void Dice::Draw(XMMATRIX& worldMatrix)
 	Direct3D::pContext_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//頂点シェーダー用	
 	Direct3D::pContext_->PSSetConstantBuffers(0, 1, &pConstantBuffer_);	//ピクセルシェーダー用
 
-	Direct3D::pContext_->DrawIndexed(24, 0, 0);
+	Direct3D::pContext_->DrawIndexed(36, 0, 0);
 	//int index[] = { 0,2,3, 0,1,2 };６はこれの数
 }
 
