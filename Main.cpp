@@ -119,9 +119,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			static int a = 0;
 			a += 1;
 
-			XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a));
+			//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a));
 			//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a)) * matS;
 			//XMMATRIX mat = matS * XMMatrixRotationZ(XMConvertToRadians(a));
+			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
 			pQuad->Draw(mat);
 			Direct3D::EndDraw();
 			
