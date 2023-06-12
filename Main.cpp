@@ -120,7 +120,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//XMMATRIX mat = matS * XMMatrixRotationZ(XMConvertToRadians(170)) * XMMatrixTranslation(3, 0, 0);
 			
 			static float a = 0;
-			a += 0.1;
+			a += 0.01;
 
 			//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a));
 			//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a)) * matS;
