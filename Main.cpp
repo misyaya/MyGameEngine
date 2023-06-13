@@ -1,9 +1,9 @@
 //インクルード
 #include <Windows.h>
 #include "Direct3D.h"
-//#include "Quad.h"
+#include "Quad.h"
 #include"Camera.h"
-#include "Dice.h"
+//#include "Dice.h"
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -78,10 +78,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	Camera::Initialize(winW, winH);
 
 
-	//Quad* pQuad = new Quad;
-	//hr = pQuad->Initialize();
-	Dice* pDice = new Dice;
-	hr = pDice->Initialize();
+	Quad* pQuad = new Quad;
+	hr = pQuad->Initialize();
+	//Dice* pDice = new Dice;
+	//hr = pDice->Initialize();
 	
 	if (FAILED(hr))
 	{
@@ -113,7 +113,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			
 			//描画処理
 			XMMATRIX matR = XMMatrixRotationY(XMConvertToRadians(45));
-			XMMATRIX matT = XMMatrixTranslation(4, 0, 0);
+			XMMATRIX matT = XMMatrixTranslation(0, 0, 0);
 			XMMATRIX matS = XMMatrixScaling(1, 3, 1);
 			//XMMATRIX mat = matT * mats;
 			//XMMATRIX mat = matT * matR * matS;
@@ -125,10 +125,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a));
 			//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a)) * matS;
 			//XMMATRIX mat = matS * XMMatrixRotationZ(XMConvertToRadians(a));
-			//XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
-			XMMATRIX mat =  XMMatrixRotationY(XMConvertToRadians(a))* XMMatrixRotationZ(XMConvertToRadians(a));
-			//pQuad->Draw(mat);
-			pDice->Draw(mat);
+			XMMATRIX mat = XMMatrixRotationY(XMConvertToRadians(a));
+			//XMMATRIX mat =  XMMatrixRotationY(XMConvertToRadians(a))* XMMatrixRotationZ(XMConvertToRadians(a));
+			pQuad->Draw(mat);
+			//pDice->Draw(mat);
 			Direct3D::EndDraw();
 			
 			
@@ -136,11 +136,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	}
 	//解放処理
 	Direct3D::Release();
-	//SAFE_RELEASE(pQuad);
-	SAFE_RELEASE(pDice);
+	SAFE_RELEASE(pQuad);
+	//SAFE_RELEASE(pDice);
 
-	//SAFE_DELETE(pQuad);
-	SAFE_DELETE(pDice);
+	SAFE_DELETE(pQuad);
+	//SAFE_DELETE(pDice);
 	return 0;
 }
 
