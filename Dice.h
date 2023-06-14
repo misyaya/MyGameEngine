@@ -10,7 +10,7 @@ using namespace DirectX; //áA
 struct CONSTANT_BUFFER
 {
 	XMMATRIX	matWVP;   //XMMATRIX = çsóÒ
-
+	XMMATRIX	matW;
 };
 
 //í∏ì_èÓïÒ
@@ -18,6 +18,7 @@ struct VERTEX
 {
 	XMVECTOR position;
 	XMVECTOR uv;
+	XMVECTOR normal;
 };
 
 

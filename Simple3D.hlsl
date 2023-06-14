@@ -42,7 +42,7 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
 
 	float4 light = float4(-1, 0.5, -0.7, 0);
 	light = normalize(light);
-	outData.color = dot(normal, light);
+	outData.color = clamp(dot(normal, light), 0, 1);;
 
 
 	//‚Ü‚Æ‚ß‚Äo—Í
@@ -54,5 +54,12 @@ VS_OUT VS(float4 pos : POSITION, float4 uv : TEXCOORD, float4 normal : NORMAL)
 //„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ„Ÿ
 float4 PS(VS_OUT inData) : SV_Target
 {
-	return g_texture.Sample(g_sampler, inData.uv) * inData.color;
+	float4 lightSource = float4(1.0, 1.0, 1.0, 0.0); //RGB
+	float4 ambientSource = float4(0.5, 0.5, 0.5, 1.0);
+//	return lightSource * g_texture.Sample(g_sampler, inData.uv) * inData.color;
+	//               F«
+	float4 diffuse = g_texture.Sample(g_sampler, inData.uv) * inData.color;
+	float4 ambient = g_texture.Sample(g_sampler, inData.uv) * ambientSource;
+	return diffuse + ambient;
+
 }

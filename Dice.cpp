@@ -19,40 +19,40 @@ HRESULT Dice::Initialize()
 	VERTEX vertices[] =
 	{
 		//1
-		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.0f,  0.0f, 0.0f, 0.0f) },	// ダイスの頂点（左上１）0
-		{ XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f, 0.0f, 0.0f, 0.0f) },  // ダイスの頂点（右上１）1
-		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f) },	// ダイスの頂点（右下１）2
-		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.0f,  0.5f, 0.0f, 0.0f) },   // ダイスの頂点（左下１）3		
+		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.0f,  0.0f, 0.0f, 0.0f), XMVectorSet(0.0, 0.0, -1.0, 0.0f) },	// ダイスの頂点（左上１）0
+		{ XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f, 0.0f, 0.0f, 0.0f), XMVectorSet(0.0, 0.0, -1.0, 0.0f) },  // ダイスの頂点（右上１）1
+		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f), XMVectorSet(0.0, 0.0, -1.0, 0.0f) },	// ダイスの頂点（右下１）2
+		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.0f,  0.5f, 0.0f, 0.0f), XMVectorSet(0.0, 0.0, -1.0, 0.0f) },   // ダイスの頂点（左下１）3		
 		
 		//2
-		{ XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),XMVectorSet(0.25f, 0.0f, 0.0f, 0.0f) },   // ダイスの頂点（左上２）4
-		{ XMVectorSet(1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f, 0.0f, 0.0f, 0.0f) },	// ダイスの頂点（右上２）5
-		{ XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f) },  // ダイスの頂点（右下２）6
-		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.25f,0.5f, 0.0f, 0.0f) },	// ダイスの頂点（左下２）7
+		{ XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),XMVectorSet(0.25f, 0.0f, 0.0f, 0.0f), XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },   // ダイスの頂点（左上２）4
+		{ XMVectorSet(1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.5f, 0.0f, 0.0f, 0.0f), XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },	// ダイスの頂点（右上２）5
+		{ XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f), XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)},  // ダイスの頂点（右下２）6
+		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(0.25f,0.5f, 0.0f, 0.0f), XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },	// ダイスの頂点（左下２）7
 
 		//3
-		{ XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.5f, 0.0f, 0.0f, 0.0f) },   // ダイスの頂点（左上２）8
-		{ XMVectorSet(1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.75f, 0.0f, 0.0f, 0.0f) },	// ダイスの頂点（右上２）9
-		{ XMVectorSet(1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.75f, 0.5f, 0.0f, 0.0f) },   // ダイスの頂点（右下３）10
-		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f) },	// ダイスの頂点（左下３）11
+		{ XMVectorSet(1.0f,  1.0f, 0.0f, 0.0f),	XMVectorSet(0.5f, 0.0f, 0.0f, 0.0f), XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },   // ダイスの頂点（左上２）8
+		{ XMVectorSet(1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.75f, 0.0f, 0.0f, 0.0f),XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },	// ダイスの頂点（右上２）9
+		{ XMVectorSet(1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.75f, 0.5f, 0.0f, 0.0f), XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },   // ダイスの頂点（右下３）10
+		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f), XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f) },	// ダイスの頂点（左下３）11
 
 		//4
-		{ XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),XMVectorSet(0.75f, 0.0f, 0.0f, 0.0f) },// ダイスの頂点（左上４）12
-		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(1.0f,0.0f, 0.0f, 0.0f) },	// ダイスの頂点（右上４）13
-		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(1.0f,  0.5f, 0.0f, 0.0f) },   // ダイスの頂点（右下４）14
-		{ XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.75f,  0.5f, 0.0f, 0.0f) },   // ダイスの頂点（左下４）15
+		{ XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),XMVectorSet(0.75f, 0.0f, 0.0f, 0.0f), XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f) },// ダイスの頂点（左上４）12
+		{ XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f),XMVectorSet(1.0f,0.0f, 0.0f, 0.0f), XMVectorSet(-1.0f,  1.0f, 0.0f, 0.0f) },	// ダイスの頂点（右上４）13
+		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(1.0f,  0.5f, 0.0f, 0.0f), XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f) },   // ダイスの頂点（右下４）14
+		{ XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.75f,  0.5f, 0.0f, 0.0f), XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f) },   // ダイスの頂点（左下４）15
 	
 		//5
-		{ XMVectorSet(1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.0f, 0.5f, 0.0f, 0.0f) },   // ダイスの頂点（左上５）16
-		{ XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.25f,  0.5f, 0.0f, 0.0f) },   // ダイスの頂点（右上５）17
-		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.25f,  1.0f, 0.0f, 0.0f) },   // ダイスの頂点（右下５）18
-		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f) },	// ダイスの頂点（左下５）19
+		{ XMVectorSet(1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.0f, 0.5f, 0.0f, 0.0f), XMVectorSet(1.0f, -1.0f, 2.0f, 0.0f) },   // ダイスの頂点（左上５）16
+		{ XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.25f,  0.5f, 0.0f, 0.0f), XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f) },   // ダイスの頂点（右上５）17
+		{ XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f),XMVectorSet(0.25f,  1.0f, 0.0f, 0.0f), XMVectorSet(-1.0f, -1.0f, 0.0f, 0.0f) },   // ダイスの頂点（右下５）18
+		{ XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f),	XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), XMVectorSet(1.0f, -1.0f, 0.0f, 0.0f) },	// ダイスの頂点（左下５）19
 
 		//6
-		{ XMVectorSet(1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f) },	// ダイスの頂点（左上６）20
-		{ XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f) },   // ダイスの頂点（右上６）21
-		{ XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.5f,  1.0f, 0.0f, 0.0f) },   // ダイスの頂点（右下６）22
-		{ XMVectorSet(1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.25f, 1.0f, 0.0f, 0.0f) },	// ダイスの頂点（左下６）23
+		{ XMVectorSet(1.0f, 1.0f, 2.0f, 0.0f),	XMVectorSet(0.25f, 0.5f, 0.0f, 0.0f), XMVectorSet(1.0f, 1.0f, 2.0f, 0.0f) },	// ダイスの頂点（左上６）20
+		{ XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f),XMVectorSet(0.5f, 0.5f, 0.0f, 0.0f), XMVectorSet(-1.0f, 1.0f, 2.0f, 0.0f) },   // ダイスの頂点（右上６）21
+		{ XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f),XMVectorSet(0.5f,  1.0f, 0.0f, 0.0f), XMVectorSet(-1.0f, -1.0f, 2.0f, 0.0f) },   // ダイスの頂点（右下６）22
+		{ XMVectorSet(1.0f, -1.0f, 2.0f, 0.0f),	XMVectorSet(0.25f, 1.0f, 0.0f, 0.0f), XMVectorSet(1.0f, -1.0f, 2.0f, 0.0f) },	// ダイスの頂点（左下６）23
 
 
 	};
@@ -130,6 +130,7 @@ void Dice::Draw(XMMATRIX& worldMatrix)
 	D3D11_MAPPED_SUBRESOURCE pdata;
 	CONSTANT_BUFFER cb;
 	cb.matWVP = XMMatrixTranspose(worldMatrix * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
+	cb.matW = XMMatrixTranspose(worldMatrix);
 	Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
 	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
 
