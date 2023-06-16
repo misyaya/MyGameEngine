@@ -35,6 +35,7 @@ HRESULT Texture::Load(string filename)
 		MessageBox(nullptr, "画像の読み込みに失敗しました", "エラー", MB_OK);
 		return E_FAIL;
 	}
+	
 
 	//サンプラーの作成
 	D3D11_SAMPLER_DESC  SamDesc;

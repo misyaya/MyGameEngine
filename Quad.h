@@ -6,7 +6,6 @@
 using namespace DirectX; //②
 
 //コンスタントバッファー
-
 struct CONSTANT_BUFFER
 {
 	XMMATRIX	matWVP;   //XMMATRIX = 行列
