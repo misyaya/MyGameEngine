@@ -129,16 +129,17 @@ HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
 //シェーダー準備
 HRESULT Direct3D::InitShader()
 {
-	HRESULT hr;
 
-	//if (InitShader())
-	//{
-	//	//エラー処理
-	//	MessageBox(nullptr, "シェーダー準備に失敗しました", "エラー", MB_OK);
-	//	return hr;
-	//}
+	if (FAILED(InitShader3D()))
+	{
+		return E_FAIL;
+	}
 
 
+	if (FAILED(InitShader2D()))
+	{
+		return E_FAIL;
+	}
 
 
 	return S_OK;
@@ -270,12 +271,7 @@ HRESULT Direct3D::InitShader2D()
 		return hr;
 	}
 
-	//それぞれをデバイスコンテキストにセット
-	pContext_->VSSetShader(shaderBundle[SHADER_2D].pVertexShader_, NULL, 0);	//頂点シェーダー
-	pContext_->PSSetShader(shaderBundle[SHADER_2D].pPixelShader_, NULL, 0);	//ピクセルシェーダー
-	pContext_->IASetInputLayout(shaderBundle[SHADER_2D].pVertexLayout_);	//頂点インプットレイアウト
-	pContext_->RSSetState(shaderBundle[SHADER_2D].pRasterizerState_);		//ラスタライザー
-
+	
 	return S_OK;
 
 }
