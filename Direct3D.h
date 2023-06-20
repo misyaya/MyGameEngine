@@ -1,6 +1,7 @@
 #pragma once
 #include <d3d11.h>
 #include <cassert>  //c++”Å‚Ì<assert.h>
+#include<DirectXMath.h>
 
 //ƒŠƒ“ƒJ
 #pragma comment(lib, "d3d11.lib")

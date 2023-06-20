@@ -117,7 +117,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//•`‰æˆ—
 			XMMATRIX matR = XMMatrixRotationY(XMConvertToRadians(45));
 			XMMATRIX matT = XMMatrixTranslation(0, 0, 0);
-			XMMATRIX matS = XMMatrixScaling(2.0, 2.0, 2.0);
+			XMMATRIX matT2 = XMMatrixTranslation(0, 0, 0);
+			XMMATRIX matT3 = XMMatrixTranslation(3,3,3)*XMMatrixScaling(0.2, 0.2, 0.2);
+			XMMATRIX matS = XMMatrixScaling(0.2, 0.2, 0.2);
 			
 			static float a = 0;
 			a += 0.01;
@@ -130,11 +132,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 				//XMMATRIX mat = matS * XMMatrixRotationZ(XMConvertToRadians(a));
 			}
 				
-			XMMATRIX mat = XMMatrixScaling(2.0, 2.0, 2.0) * XMMatrixRotationY(XMConvertToRadians(a));
+			//XMMATRIX mat = XMMatrixScaling(2.0, 2.0, 2.0) * XMMatrixRotationY(XMConvertToRadians(a));
 			//XMMATRIX mat =  XMMatrixRotationY(XMConvertToRadians(a))* XMMatrixRotationZ(XMConvertToRadians(a));
+			
 			//pQuad->Draw(mat);
-			pDice->Draw(mat);
-			pSprite->Draw(matT);
+			pDice->Draw(matT);
+			pSprite->Draw(matT3);
 			Direct3D::EndDraw();
 			
 			

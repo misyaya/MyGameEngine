@@ -10,7 +10,7 @@ using namespace DirectX; //②
 struct CONSTANT_BUFFER
 {
 	XMMATRIX	matWVP;   //XMMATRIX = 行列
-	XMMATRIX	matW;
+	XMMATRIX	matNormal;
 	
 };
 
@@ -25,6 +25,7 @@ struct VERTEX
 
 class Quad
 {
+protected:
 	int vertexNum_;
 	std::vector<VERTEX> vertices_;
 	int indexNum_;//インデックス数
@@ -44,7 +45,7 @@ public:
 	void Draw(XMMATRIX& worldMatrix);
 	void Release();
 
-/*
+
 private:
 	virtual void InitVertexData();
 	HRESULT CreateVertexBuffer();
@@ -52,5 +53,9 @@ private:
 	HRESULT CreateIndexBuffer();
 	HRESULT CreateConstantBuffer();
 	HRESULT LoadTexture();
-	*/
+
+	//---------Draw関数から呼ばれる関数---------
+	void PassDataToCB(DirectX::XMMATRIX& worldMatrix);	//コンスタントバッファに各種情報を渡す
+	void SetBufferToPipeline();
+
 };
