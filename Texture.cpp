@@ -24,10 +24,6 @@ HRESULT Texture::Load(string filename)
 	size_t ret;
 	mbstowcs_s(&ret, wtext, filename.c_str(), filename.length());
 
-	UINT imgWidth;
-	UINT imgHeight;
-
-
 	TexMetadata metadata;
 	ScratchImage image;
 	HRESULT hr;
@@ -40,7 +36,12 @@ HRESULT Texture::Load(string filename)
 		return E_FAIL;
 	}
 	
-	
+	UINT imgWidth;
+	UINT imgHeight;
+
+	imgWidth = metadata.width;
+	imgHeight = metadata.height;
+
 	//ÉTÉìÉvÉâÅ[ÇÃçÏê¨
 	D3D11_SAMPLER_DESC  SamDesc;
 	ZeroMemory(&SamDesc, sizeof(D3D11_SAMPLER_DESC));

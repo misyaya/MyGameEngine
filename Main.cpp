@@ -3,7 +3,7 @@
 #include "Direct3D.h"
 //#include "Quad.h"
 #include"Camera.h"
-//#include "Dice.h"
+#include "Dice.h"
 #include "Sprite.h"
 
 //íËêîêÈåæ
@@ -81,8 +81,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	//Quad* pQuad = new Quad;
 	//hr = pQuad->Initialize();
-	//Dice* pDice = new Dice;
-	//hr = pDice->Initialize();
+	Dice* pDice = new Dice;
+	hr = pDice->Initialize();
 	Sprite* pSprite = new Sprite;
 	hr = pSprite->Initialize();
 	
@@ -118,20 +118,22 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			XMMATRIX matR = XMMatrixRotationY(XMConvertToRadians(45));
 			XMMATRIX matT = XMMatrixTranslation(0, 0, 0);
 			XMMATRIX matS = XMMatrixScaling(2.0, 2.0, 2.0);
-			//XMMATRIX mat = matT * mats;
-			//XMMATRIX mat = matT * matR * matS;
-			//XMMATRIX mat = matS * XMMatrixRotationZ(XMConvertToRadians(170)) * XMMatrixTranslation(3, 0, 0);
 			
 			static float a = 0;
 			a += 0.01;
-
-			//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a));
-			//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a)) * matS;
-			//XMMATRIX mat = matS * XMMatrixRotationZ(XMConvertToRadians(a));
+			{
+				//XMMATRIX mat = matT * mats;
+				//XMMATRIX mat = matT * matR * matS;
+				//XMMATRIX mat = matS * XMMatrixRotationZ(XMConvertToRadians(170)) * XMMatrixTranslation(3, 0, 0);
+				//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a));
+				//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a)) * matS;
+				//XMMATRIX mat = matS * XMMatrixRotationZ(XMConvertToRadians(a));
+			}
+				
 			XMMATRIX mat = XMMatrixScaling(2.0, 2.0, 2.0) * XMMatrixRotationY(XMConvertToRadians(a));
 			//XMMATRIX mat =  XMMatrixRotationY(XMConvertToRadians(a))* XMMatrixRotationZ(XMConvertToRadians(a));
 			//pQuad->Draw(mat);
-			//pDice->Draw(mat);
+			pDice->Draw(mat);
 			pSprite->Draw(matT);
 			Direct3D::EndDraw();
 			
@@ -141,11 +143,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//âï˙èàóù
 	Direct3D::Release();
 	//SAFE_RELEASE(pQuad);
-	//SAFE_RELEASE(pDice);
+	SAFE_RELEASE(pDice);
 	SAFE_RELEASE(pSprite);
 
 	//SAFE_DELETE(pQuad);
-	//SAFE_DELETE(pDice);
+	SAFE_DELETE(pDice);
 	SAFE_DELETE(pSprite);
 	return 0;
 }

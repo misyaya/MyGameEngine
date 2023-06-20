@@ -93,6 +93,9 @@ HRESULT Quad::Initialize()
 
 void Quad::Draw(XMMATRIX& worldMatrix)
 {
+
+	Direct3D::SetShader(SHADER_2D);
+
 	//コンスタントバッファに渡す情報
 	D3D11_MAPPED_SUBRESOURCE pdata;
 	CONSTANT_BUFFER cb;
