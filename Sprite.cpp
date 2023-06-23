@@ -1,6 +1,5 @@
 #include "Sprite.h"
 
-#include "Sprite.h"
 #include "Camera.h"
 
 
@@ -55,9 +54,6 @@ HRESULT Sprite::Initialize()
 //描画
 void Sprite::Draw(Transform& transform)
 {
-	Direct3D::SetShader(SHADER_2D);
-
-
 	transform.Calclation();//トランスフォームを計算
 
 	//コンスタントバッファに情報を渡す
@@ -79,6 +75,11 @@ void Sprite::Release()
 	SAFE_RELEASE(pIndexBuffer_);
 	SAFE_RELEASE(pVertexBuffer_);
 }
+
+
+
+
+
 
 
 ///////////////ここからはprivate関数///////////////
@@ -157,7 +158,7 @@ HRESULT Sprite::CreateIndexBuffer()
 	hr = Direct3D::pDevice__->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
 	if (FAILED(hr))
 	{
-		MessageBox(NULL, "インデックスバッファの作成に失敗しました", "エラー", MB_OK);
+		MessageBox(NULL, "インデックスバッファ2の作成に失敗しました", "エラー", MB_OK);
 		return hr;
 	}
 	return S_OK;

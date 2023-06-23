@@ -5,10 +5,8 @@
 #include "Transform.h"
 
 
-
+using namespace DirectX;
 #define SAFE_DELETE_ARRAY(p) if(p != nullptr){ delete[] p; p = nullptr;}
-
-
 
 //四角形ポリゴン（三角形を２枚）を描画するクラス
 class Sprite
@@ -49,7 +47,7 @@ public:
 	HRESULT Initialize();
 
 	//描画
-	//引数：transform	トランスフォームクラスオブジェクト
+	//引数：worldMatrix	ワールド行列
 	void Draw(Transform& transform);
 
 	//解放
@@ -72,5 +70,5 @@ private:
 
 	//---------Draw関数から呼ばれる関数---------
 	void PassDataToCB(XMMATRIX worldMatrix);	//コンスタントバッファに各種情報を渡す
-	void SetBufferToPipeline();
+	void SetBufferToPipeline();							//各バッファをパイプラインにセット
 };
