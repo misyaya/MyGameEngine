@@ -3,6 +3,7 @@
 #include "Direct3D.h"
 #include "Texture.h"
 #include <vector>
+#include "Transform.h"
 
 using namespace DirectX; //②
 
@@ -42,7 +43,7 @@ public:
 	Quad();
 	~Quad();
 	HRESULT Initialize();
-	void Draw(XMMATRIX& worldMatrix);
+	void Draw(Transform& transform);
 	void Release();
 
 
@@ -55,7 +56,7 @@ private:
 	HRESULT LoadTexture();
 
 	//---------Draw関数から呼ばれる関数---------
-	void PassDataToCB(DirectX::XMMATRIX& worldMatrix);	//コンスタントバッファに各種情報を渡す
+	void PassDataToCB(Transform transform);	//コンスタントバッファに各種情報を渡す
 	void SetBufferToPipeline();
 
 };
