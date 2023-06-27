@@ -100,7 +100,7 @@ HRESULT Quad::CreateVertexBuffer()
 	bd_vertex.StructureByteStride = 0;
 	D3D11_SUBRESOURCE_DATA data_vertex;
 	data_vertex.pSysMem = vertices_.data();
-	hr = Direct3D::pDevice__->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
+	hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
 	if (FAILED(hr))
 	{
 		//エラー処理
@@ -135,7 +135,7 @@ HRESULT Quad::CreateIndexBuffer()
 	InitData.SysMemSlicePitch = 0;
 
 	HRESULT hr;
-	hr = Direct3D::pDevice__->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
+	hr = Direct3D::pDevice_->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
 	if (FAILED(hr))
 	{
 		//エラー処理
@@ -159,7 +159,7 @@ HRESULT Quad::CreateConstantBuffer()
 
 	// コンスタントバッファの作成
 	HRESULT hr;
-	hr = Direct3D::pDevice__->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
+	hr = Direct3D::pDevice_->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
 	if (FAILED(hr))
 	{
 		//エラー処理

@@ -117,7 +117,7 @@ HRESULT Sprite::CreateVertexBuffer()
 	bd_vertex.StructureByteStride = 0;
 	D3D11_SUBRESOURCE_DATA data_vertex;
 	data_vertex.pSysMem = vertices_.data();
-	hr = Direct3D::pDevice__->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
+	hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
 	if (FAILED(hr))
 	{
 		MessageBox(NULL, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
@@ -155,7 +155,7 @@ HRESULT Sprite::CreateIndexBuffer()
 	InitData.SysMemSlicePitch = 0;
 
 	HRESULT hr;
-	hr = Direct3D::pDevice__->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
+	hr = Direct3D::pDevice_->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
 	if (FAILED(hr))
 	{
 		MessageBox(NULL, "インデックスバッファ2の作成に失敗しました", "エラー", MB_OK);
@@ -177,7 +177,7 @@ HRESULT Sprite::CreateConstantBuffer()
 
 	// コンスタントバッファの作成
 	HRESULT hr;
-	hr = Direct3D::pDevice__->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
+	hr = Direct3D::pDevice_->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
 	if (FAILED(hr))
 	{
 		MessageBox(NULL, "コンスタントバッファの作成に失敗しました", "エラー", MB_OK);

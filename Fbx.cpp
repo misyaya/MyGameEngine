@@ -1,8 +1,9 @@
 ﻿#include "Fbx.h"
-#include "Direct3D.h"
+//#include "Direct3D.h"
 #include "Camera.h"
 
-Fbx::Fbx()
+Fbx::Fbx():
+	pVertexBuffer_(nullptr), pIndexBuffer_(nullptr), pConstantBuffer_(nullptr), vertexCount_(0), polygonCount_(0), materialCount_(0), pMaterialList_(nullptr)
 {
 }
 
@@ -72,7 +73,7 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* mesh)
 	bd_vertex.StructureByteStride = 0;
 	D3D11_SUBRESOURCE_DATA data_vertex;
 	data_vertex.pSysMem = vertices;
-	hr = Direct3D::pDevice__->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
+	hr = Direct3D::pDevice_->CreateBuffer(&bd_vertex, &data_vertex, &pVertexBuffer_);
 	if (FAILED(hr))
 	{
 		MessageBox(NULL, "頂点バッファの作成に失敗しました", "エラー", MB_OK);
@@ -111,7 +112,7 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 	InitData.SysMemSlicePitch = 0;
 
 	HRESULT hr;
-	hr = Direct3D::pDevice__->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
+	hr = Direct3D::pDevice_->CreateBuffer(&bd, &InitData, &pIndexBuffer_);
 	if (FAILED(hr))
 	{
 		MessageBox(NULL, "インデックスバッファの作成に失敗しました", "エラー", MB_OK);
@@ -130,7 +131,7 @@ void Fbx::IntConstantBuffer()
 
 	// コンスタントバッファの作成
 	HRESULT hr;
-	hr = Direct3D::pDevice__->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
+	hr = Direct3D::pDevice_->CreateBuffer(&cb, nullptr, &pConstantBuffer_);
 	if (FAILED(hr))
 	{
 		MessageBox(NULL, "コンスタントバッファの作成に失敗しました", "エラー", MB_OK);
@@ -177,4 +178,8 @@ void Fbx::Draw(Transform& transform)
 
 void Fbx::Release()
 {
+	//SAFE_RELEASE(pMaterialList_);
+	SAFE_RELEASE(pConstantBuffer_);
+	SAFE_RELEASE(pIndexBuffer_);
+	SAFE_RELEASE(pVertexBuffer_);
 }

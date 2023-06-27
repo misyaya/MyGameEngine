@@ -17,7 +17,7 @@ const int WINDOW_HEIGHT = 600; //ウィンドウの高さ
 //プロトタイプ宣言
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-ID3D11Device* pDevice__;		//デバイス
+ID3D11Device* pDevice_;		//デバイス
 ID3D11DeviceContext* pContext_;		//デバイスコンテキスト
 IDXGISwapChain* pSwapChain_;		//スワップチェイン
 ID3D11RenderTargetView* pRenderTargetView_;	//レンダーターゲットビュー

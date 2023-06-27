@@ -4,7 +4,7 @@
 #include <fbxsdk.h>
 #include <string>
 #include "Transform.h"
-
+#include "Direct3D.h"
 
 #pragma comment(lib, "LibFbxSDK-MD.lib")
 #pragma comment(lib, "LibXml2-MD.lib")
