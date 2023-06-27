@@ -3,8 +3,8 @@
 #include "Direct3D.h"
 //#include "Quad.h"
 #include"Camera.h"
-//#include "Dice.h"
-//#include "Sprite.h"
+#include "Dice.h"
+#include "Sprite.h"
 #include"Fbx.h"
 
 //’è”éŒ¾
@@ -80,12 +80,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	Camera::Initialize(winW, winH);
 
 
-	//Quad* pQuad = new Quad;
-	//hr = pQuad->Initialize();
-	//Dice* pDice = new Dice;
-	//hr = pDice->Initialize();
-	//Sprite* pSprite = new Sprite;
-	//hr = pSprite->Initialize();
+	Quad* pQuad = new Quad;
+	hr = pQuad->Initialize();
+	Dice* pDice = new Dice;
+	hr = pDice->Initialize();
+	Sprite* pSprite = new Sprite;
+	hr = pSprite->Initialize();
 	Fbx* pFbx = new Fbx;
 	pFbx->Load("Assets/Oden.fbx");
 	
@@ -154,13 +154,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			spriteTransform.scale_.y = 256.0f / 600.0f;
 
 			Transform fbxTransform;
-			fbxTransform.position_.x = 0.0f;
+			fbxTransform.position_.y = 0.0f;
 
 			//pQuad->Draw(mat);
-			//pDice->Draw(diceTransform);
-			//pSprite->Draw(spriteTransform);
+			pDice->Draw(diceTransform);
+			pSprite->Draw(spriteTransform);
+			pFbx->Draw(fbxTransform);
+
+
 			Direct3D::EndDraw();
-			pFbx->Draw(diceTransform);
+			
 			
 			
 		}

@@ -17,7 +17,7 @@ class Fbx
 	//マテリアル
 	struct MATERIAL
 	{
-		Texture* pTexture; //これがポインタだからincludeじゃなくて前方宣言でいい
+		Texture* pTexture_; //これがポインタだからincludeじゃなくて前方宣言でいい
 	};
 
 	struct CONSTANT_BUFFER
@@ -29,6 +29,7 @@ class Fbx
 	struct VERTEX
 	{
 		XMVECTOR position;
+		XMVECTOR uv;
 	};
 
 
@@ -38,7 +39,7 @@ class Fbx
 
 
 	ID3D11Buffer* pVertexBuffer_;      //頂点バッファ
-	ID3D11Buffer* pIndexBuffer_;       //インデックスバッファ
+	ID3D11Buffer** pIndexBuffer_;       //インデックスバッファ
 	ID3D11Buffer* pConstantBuffer_;    //コンスタントバッファ
 	MATERIAL* pMaterialList_;
 

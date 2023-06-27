@@ -21,6 +21,7 @@ void Transform::Calclation()
     rotateY = XMMatrixRotationY(XMConvertToRadians(rotate_.y)); //Y軸回転行列
     rotateZ = XMMatrixRotationZ(XMConvertToRadians(rotate_.z)); //Z軸回転行列
                   //合体！ 
+    matRotate_ = rotateZ * rotateX * rotateY;
 
   //拡大行列作成
     matScale_ = XMMatrixScaling(scale_.x, scale_.y, scale_.z);

@@ -36,11 +36,6 @@ HRESULT Texture::Load(string filename)
 		return E_FAIL;
 	}
 	
-	UINT imgWidth;
-	UINT imgHeight;
-
-	imgWidth = metadata.width;
-	imgHeight = metadata.height;
 
 	//ƒTƒ“ƒvƒ‰[‚Ìì¬
 	D3D11_SAMPLER_DESC  SamDesc;
