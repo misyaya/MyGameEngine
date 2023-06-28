@@ -108,8 +108,11 @@ void Fbx::InitVertex(fbxsdk::FbxMesh* mesh)
 void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 {
 	pIndexBuffer_ = new ID3D11Buffer * [materialCount_];
+	indexCount_ = std::vector<int>(materialCount_);
 
-	int* index = new int[polygonCount_ * 3];
+	//int* index = new int[polygonCount_ * 3];
+	std::vector<int> index(polygonCount_ * 3);
+
 	for (int i = 0; i < materialCount_; i++)
 	{
 		int count = 0;
@@ -130,6 +133,9 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 				}
 			}
 		}
+		indexCount_[i] = count;
+
+
 
 		// インデックスバッファを生成する
 		D3D11_BUFFER_DESC   bd;
@@ -140,7 +146,7 @@ void Fbx::InitIndex(fbxsdk::FbxMesh* mesh)
 		bd.MiscFlags = 0;
 
 		D3D11_SUBRESOURCE_DATA InitData;
-		InitData.pSysMem = index;
+		InitData.pSysMem = index.data();
 		InitData.SysMemPitch = 0;
 		InitData.SysMemSlicePitch = 0;
 
@@ -226,20 +232,21 @@ void Fbx::Draw(Transform& transform)
 	cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
 	cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
 
-	D3D11_MAPPED_SUBRESOURCE pdata;
-	Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
-	memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
-
-	Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//再開
-
-	//頂点バッファ
-	UINT stride = sizeof(VERTEX);
-	UINT offset = 0;
-	Direct3D::pContext_->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
 
 	for (int i = 0; i < materialCount_; i++)
 	{
 		
+		D3D11_MAPPED_SUBRESOURCE pdata;
+		Direct3D::pContext_->Map(pConstantBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &pdata);	// GPUからのデータアクセスを止める
+		memcpy_s(pdata.pData, pdata.RowPitch, (void*)(&cb), sizeof(cb));	// データを値を送る
+
+		Direct3D::pContext_->Unmap(pConstantBuffer_, 0);	//再開
+
+		//頂点バッファ
+		UINT stride = sizeof(VERTEX);
+		UINT offset = 0;
+		Direct3D::pContext_->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
+
 		// インデックスバッファーをセット
 		stride = sizeof(int);
 		offset = 0;
@@ -255,9 +262,10 @@ void Fbx::Draw(Transform& transform)
 			Direct3D::pContext_->PSSetSamplers(0, 1, &pSampler);
 			ID3D11ShaderResourceView* pSRV = pMaterialList_[i].pTexture_->GetSRV();
 			Direct3D::pContext_->PSSetShaderResources(0, 1, &pSRV);
-
 		}
-		Direct3D::pContext_->DrawIndexed(polygonCount_ * 3, 0, 0);
+
+		//描画
+		Direct3D::pContext_->DrawIndexed(indexCount_[i], 0, 0);
 	}
 }
 

@@ -80,12 +80,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	Camera::Initialize(winW, winH);
 
 
-	Quad* pQuad = new Quad;
-	hr = pQuad->Initialize();
-	Dice* pDice = new Dice;
-	hr = pDice->Initialize();
-	Sprite* pSprite = new Sprite;
-	hr = pSprite->Initialize();
+	//Quad* pQuad = new Quad;
+	//hr = pQuad->Initialize();
+	//Dice* pDice = new Dice;
+	//hr = pDice->Initialize();
+	//Sprite* pSprite = new Sprite;
+	//hr = pSprite->Initialize();
 	Fbx* pFbx = new Fbx;
 	pFbx->Load("Assets/Oden.fbx");
 	
@@ -155,10 +155,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 			Transform fbxTransform;
 			fbxTransform.position_.y = 0.0f;
+			fbxTransform.rotate_.y = angle;
 
 			//pQuad->Draw(mat);
-			pDice->Draw(diceTransform);
-			pSprite->Draw(spriteTransform);
+			//pDice->Draw(diceTransform);
+			//pSprite->Draw(spriteTransform);
 			pFbx->Draw(fbxTransform);
 
 
