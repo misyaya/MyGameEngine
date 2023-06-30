@@ -110,6 +110,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
+
+			if (Input::IsKey(DIK_ESCAPE))
+			{
+				PostQuitMessage(0);
+			}
+
 		}
 
 		//メッセージなし
@@ -169,11 +175,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//pSprite->Draw(spriteTransform);
 			pFbx->Draw(fbxTransform);
 
-			if (Input::IsKey(DIK_ESCAPE))
-			{
-				PostQuitMessage(0);
-			}
-
+			
 			Direct3D::EndDraw();
 			
 			
