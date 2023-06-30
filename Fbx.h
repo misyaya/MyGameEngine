@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "Direct3D.h"
 
+
 #pragma comment(lib, "LibFbxSDK-MD.lib")
 #pragma comment(lib, "LibXml2-MD.lib")
 #pragma comment(lib, "zlib-MD.lib")
@@ -18,13 +19,16 @@ class Fbx
 	//マテリアル
 	struct MATERIAL
 	{
-		Texture* pTexture_; //これがポインタだからincludeじゃなくて前方宣言でいい
+		Texture*    pTexture_; //これがポインタだからincludeじゃなくて前方宣言でいい
+		XMFLOAT4	diffuse;
 	};
 
 	struct CONSTANT_BUFFER
 	{
 		XMMATRIX	matWVP;
 		XMMATRIX	matNormal;
+		XMFLOAT4	diffuseColor;		// ディフューズカラー（マテリアルの色）
+		int		isTexture;		// テクスチャ貼ってあるかどうか
 	};
 
 	struct VERTEX
