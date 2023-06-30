@@ -6,6 +6,7 @@
 #include "Dice.h"
 #include "Sprite.h"
 #include"Fbx.h"
+#include"Input.h"
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -77,6 +78,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		PostQuitMessage(0); //プログラム終了
 	}
 
+	//DirectInputの初期化
+	Input::Initialize(hWnd);
+
 	Camera::Initialize(winW, winH);
 
 
@@ -116,6 +120,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 			//ゲームの処理
 			Direct3D::BeginDraw();
+
+			//入力情報の更新
+			Input::Update();
 
 			static float angle = 0;
 			angle += 0.05;
@@ -162,6 +169,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//pSprite->Draw(spriteTransform);
 			pFbx->Draw(fbxTransform);
 
+			if (Input::IsKey(DIK_ESCAPE))
+			{
+				PostQuitMessage(0);
+			}
 
 			Direct3D::EndDraw();
 			
@@ -170,7 +181,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		}
 	}
 	//解放処理
-	Direct3D::Release();
+
 	//SAFE_RELEASE(pQuad);
 	//SAFE_RELEASE(pDice);
 	//SAFE_RELEASE(pSprite);
@@ -180,6 +191,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//SAFE_DELETE(pDice);
 	//SAFE_DELETE(pSprite);
 	SAFE_DELETE(pFbx);
+
+	Input::Release();
+	Direct3D::Release();
+	
 	return 0;
 }
 
