@@ -1,12 +1,8 @@
 //インクルード
 #include <Windows.h>
-#include "Direct3D.h"
-//#include "Quad.h"
-#include"Camera.h"
-#include "Dice.h"
-#include "Sprite.h"
-#include"Fbx.h"
-#include"Input.h"
+#include "Engine/Direct3D.h"
+#include"Engine/Camera.h"
+#include"Engine/Input.h"
 
 //定数宣言
 const char* WIN_CLASS_NAME = "SampleGame";  //ウィンドウクラス名
@@ -83,15 +79,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	Camera::Initialize(winW, winH);
 
-
-	//Quad* pQuad = new Quad;
-	//hr = pQuad->Initialize();
-	//Dice* pDice = new Dice;
-	//hr = pDice->Initialize();
-	//Sprite* pSprite = new Sprite;
-	//hr = pSprite->Initialize();
-	Fbx* pFbx = new Fbx;
-	pFbx->Load("Assets/Oden.fbx");
 	
 	if (FAILED(hr))
 	{
@@ -119,83 +106,17 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			//カメラ更新
 			Camera::Update();
 
-			//ゲームの処理
-			Direct3D::BeginDraw();
-
 			//入力情報の更新
 			Input::Update();
 
-			static float angle = 0;
-			angle += 0.05;
+			//描画
+			Direct3D::BeginDraw();
 
-			
-			//描画処理
-			
-				/*XMMATRIX matR = XMMatrixRotationY(XMConvertToRadians(45));
-				XMMATRIX matT = XMMatrixTranslation(0, 0, 0);
-				XMMATRIX matT2 = XMMatrixTranslation(0, 0, 0);
-				XMMATRIX matT3 = XMMatrixTranslation(3,3,3)*XMMatrixScaling(0.2, 0.2, 0.2);
-				XMMATRIX matS = XMMatrixScaling(0.2, 0.2, 0.2);*/
-
-				//static float a = 0;
-				//a += 0.01;
-
-					//XMMATRIX mat = matT * mats;
-					//XMMATRIX mat = matT * matR * matS;
-					//XMMATRIX mat = matS * XMMatrixRotationZ(XMConvertToRadians(170)) * XMMatrixTranslation(3, 0, 0);
-					//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a));
-					//XMMATRIX mat = XMMatrixRotationZ(XMConvertToRadians(a)) * matS;
-					//XMMATRIX mat = matS * XMMatrixRotationZ(XMConvertToRadians(a));
-
-
-				//XMMATRIX mat = XMMatrixScaling(2.0, 2.0, 2.0) * XMMatrixRotationY(XMConvertToRadians(a));
-				//XMMATRIX mat =  XMMatrixRotationY(XMConvertToRadians(a))* XMMatrixRotationZ(XMConvertToRadians(a));
-				
-			
-			Transform diceTransform;
-			diceTransform.position_.y = 3.0f;
-			diceTransform.rotate_.y = angle;
-			
-
-			Transform spriteTransform;
-			spriteTransform.scale_.x = 512.0f / 800.0f;
-			spriteTransform.scale_.y = 256.0f / 600.0f;
-
-			Transform fbxTransform;
-			fbxTransform.position_.y = 0.0f;
-			fbxTransform.rotate_.y = angle;
-
-			//pQuad->Draw(mat);
-			//pDice->Draw(diceTransform);
-			//pSprite->Draw(spriteTransform);
-			pFbx->Draw(fbxTransform);
-
-			
 			Direct3D::EndDraw();
 			
-			
-			if (Input::IsKeyUp(DIK_ESCAPE))
-			{
-				static int cnt = 0;
-				cnt++;
-				if (cnt >= 3)
-				{
-					PostQuitMessage(0);
-				}
-			}
 		}
 	}
-	//解放処理
-
-	//SAFE_RELEASE(pQuad);
-	//SAFE_RELEASE(pDice);
-	//SAFE_RELEASE(pSprite);
-	SAFE_RELEASE(pFbx);
 	
-	//SAFE_DELETE(pQuad);
-	//SAFE_DELETE(pDice);
-	//SAFE_DELETE(pSprite);
-	SAFE_DELETE(pFbx);
 
 	Input::Release();
 	Direct3D::Release();
