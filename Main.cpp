@@ -208,6 +208,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
+	//case WM_MOUSEMOVE:
+	//	Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
+	//	return 0;
+
 	case WM_DESTROY: //Windowを閉じたら
 		PostQuitMessage(0);  //プログラム終了(これ消すとWindowが閉じてもプログラムが動き続ける）
 		return 0;

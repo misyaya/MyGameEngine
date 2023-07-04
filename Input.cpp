@@ -58,4 +58,15 @@ namespace Input
 		SAFE_RELEASE(pKeyDevice);
 		SAFE_RELEASE(pDInput);
 	}
+
+	//XMVECTOR GetMousePosition()
+	//{
+	//	return mousePosition;
+	//}
+
+	//void SetMousePosition(int x, int y)
+	//{
+	//	mousePosition = XMVectorSet((float)x, (float)y, 0, 0);
+	//}
+	
 }
