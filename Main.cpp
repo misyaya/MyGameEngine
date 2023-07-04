@@ -111,11 +111,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 
-			if (Input::IsKey(DIK_ESCAPE))
-			{
-				PostQuitMessage(0);
-			}
-
 		}
 
 		//メッセージなし
@@ -179,7 +174,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Direct3D::EndDraw();
 			
 			
-			
+			if (Input::IsKeyUp(DIK_ESCAPE))
+			{
+				static int cnt = 0;
+				cnt++;
+				if (cnt >= 3)
+				{
+					PostQuitMessage(0);
+				}
+			}
 		}
 	}
 	//解放処理
@@ -188,7 +191,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	//SAFE_RELEASE(pDice);
 	//SAFE_RELEASE(pSprite);
 	SAFE_RELEASE(pFbx);
-
+	
 	//SAFE_DELETE(pQuad);
 	//SAFE_DELETE(pDice);
 	//SAFE_DELETE(pSprite);
