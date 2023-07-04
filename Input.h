@@ -17,7 +17,7 @@ namespace Input
 	bool IsKeyDown(int keyCode);
 	bool IsKeyUp(int keyCode);
 	void Release();
-	XMVECTOR mousePositionfat;
+	//XMVECTOR mousePosition;
 	//XMVECTOR GetMousePosition();
 	//void SetMousePosition(int x, int y);
 };

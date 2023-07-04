@@ -45,9 +45,7 @@ namespace Input
 	{
 		if (!keyState[keyCode] && prevKeyState[keyCode])
 		{
-			
 				return true;
-			
 		}
 		return false;
 	}
