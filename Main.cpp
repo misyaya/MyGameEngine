@@ -115,19 +115,20 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 			Input::Update();
 
 			//RootJob更新
-			pRootJob->Update();
+			pRootJob->UpdateSub();
 
 			//描画
 			Direct3D::BeginDraw();
 
-			//GameOjectから、すべてのオブジェクトのドローを呼ぶ
+			//ルートジョブから、すべてのオブジェクトのドローを呼ぶ
+			pRootJob->DrawSub();
 
 			Direct3D::EndDraw();
 			
 		}
 	}
 	
-	pRootJob->Release();
+	pRootJob->ReleaseSub();
 	Input::Release();
 	Direct3D::Release();
 	
