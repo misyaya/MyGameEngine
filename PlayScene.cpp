@@ -19,7 +19,7 @@ void PlayScene::Initialize()
 
 void PlayScene::Update()
 {
-	this->transform_.rotate_.y += 0.01;
+	this->transform_.rotate_.y += 1;
 }
 
 void PlayScene::Draw()
