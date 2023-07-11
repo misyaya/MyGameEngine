@@ -14,7 +14,7 @@ protected:
 	Transform	transform_;
 	GameObject*	pParent_;
 	string		objectName_;
-
+	bool deathfFlag = false;
 public:
 	GameObject();
 	GameObject(GameObject* parent, const std::string& name);
@@ -30,6 +30,7 @@ public:
 	void DrawSub();
 	void ReleaseSub();
 	
+	void KillMe();
 
 	template <class T>
 	void Instantiate(GameObject* parent)
