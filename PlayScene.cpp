@@ -14,7 +14,7 @@ void PlayScene::Initialize()
 	//pPlayer->Initialize();
 	//childList_.push_back(pPlayer); //PlaySceneの子として、プレイヤーを登録
 
-	Instantiate<Player>(this);
+	GameObject* pPlayer = Instantiate<Player>(this);
 }
 
 void PlayScene::Update()

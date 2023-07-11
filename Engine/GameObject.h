@@ -3,6 +3,7 @@
 #include <string>
 #include <list>
 #include "Transform.h"
+#include "Direct3D.h"
 
 using std::string;
 using std::list;
@@ -14,7 +15,7 @@ protected:
 	Transform	transform_;
 	GameObject*	pParent_;
 	string		objectName_;
-	bool deathfFlag = false;
+	bool IsDead_;
 public:
 	GameObject();
 	GameObject(GameObject* parent, const std::string& name);
@@ -33,11 +34,12 @@ public:
 	void KillMe();
 
 	template <class T>
-	void Instantiate(GameObject* parent)
+	GameObject* Instantiate(GameObject* parent)
 	{
 		T* pObject;
 		pObject = new T(parent);
 		pObject->Initialize();
 		childList_.push_back(pObject);
+		return pObject;
 	}
 };

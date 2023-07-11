@@ -1,0 +1,38 @@
+#include "Oden.h"
+#include "Engine/Fbx.h"
+
+Oden::Oden(GameObject* parent)
+	:GameObject(parent, "Oden"), pFbx(nullptr)
+{
+}
+
+Oden::~Oden()
+{
+}
+
+void Oden::Initialize()
+{
+	pFbx = new Fbx;
+	pFbx->Load("Assets/oden.fbx");
+	this->transform_.scale_.x = 0.3;
+	this->transform_.scale_.y = 0.3;
+	this->transform_.scale_.z = 0.3;
+	this->transform_.position_.x = 1.5;
+}
+
+void Oden::Update()
+{
+	transform_.rotate_.y++;
+}
+
+void Oden::Draw()
+{
+	pFbx->Draw(transform_);
+}
+
+void Oden::Release()
+{
+	pFbx->Release();
+	delete pFbx;
+}
+

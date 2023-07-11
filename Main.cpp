@@ -168,7 +168,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	pRootJob->ReleaseSub();
 	Input::Release();
 	Direct3D::Release();
-	
+
 	return 0;
 }
 
