@@ -18,8 +18,9 @@ void GameObject::UpdateSub()
 {
 	Update();
 	for (auto itr = childList_.begin(); itr != childList_.end(); itr++)
+	{
 		(*itr)->UpdateSub();
-
+	}
 	for (auto itr = childList_.begin(); itr != childList_.end();)
 	{
 		if ((*itr)->IsDead_ == true)
@@ -44,12 +45,12 @@ void GameObject::DrawSub()
 
 void GameObject::ReleaseSub()
 {
+	Release();
 
 	for (auto itr = childList_.begin(); itr != childList_.end(); itr++)
 	{	(*itr)->ReleaseSub();
 		SAFE_DELETE(*itr);
 	}
-	Release();
 }
 
 void GameObject::KillMe()
