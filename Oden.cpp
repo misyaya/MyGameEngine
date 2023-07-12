@@ -14,15 +14,16 @@ void Oden::Initialize()
 {
 	pFbx = new Fbx;
 	pFbx->Load("Assets/oden.fbx");
-	this->transform_.scale_.x = 0.3;
-	this->transform_.scale_.y = 0.3;
-	this->transform_.scale_.z = 0.3;
-	this->transform_.position_.x = 1.5;
+	this->transform_.scale_.x = 0.2;
+	this->transform_.scale_.y = 0.2;
+	this->transform_.scale_.z = 0.2;
+	this->transform_.position_.x = 1.5f;
+	this->transform_.position_.y = 1.4f;
 }
 
 void Oden::Update()
 {
-	transform_.rotate_.y++;
+	//transform_.rotate_.y++;
 }
 
 void Oden::Draw()

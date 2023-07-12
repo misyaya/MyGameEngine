@@ -6,8 +6,10 @@ GameObject::GameObject()
 }
 
 GameObject::GameObject(GameObject* parent, const std::string& name)
-	:pParent_(nullptr), IsDead_(false)
+	:pParent_(parent),objectName_(name), IsDead_(false)
 {
+	if (parent != nullptr)
+		this->transform_.pParent_ = &(parent->transform_);
 }
 
 GameObject::~GameObject()
@@ -56,4 +58,34 @@ void GameObject::ReleaseSub()
 void GameObject::KillMe()
 {
 	IsDead_ = true;
+}
+
+void GameObject::SetPosition(XMFLOAT3 position)
+{
+	transform_.position_ = position;
+}
+
+void GameObject::SetPosition(float x, float y, float z)
+{
+	SetPosition(XMFLOAT3(x, y, z));
+}
+
+void GameObject::SetRotate(XMFLOAT3 rotate)
+{
+	transform_.rotate_ = rotate;
+}
+
+void GameObject::SetRotate(float x, float y, float z)
+{
+	SetRotate(XMFLOAT3(x, y, z));
+}
+
+void GameObject::SetScale(XMFLOAT3 scale)
+{
+	transform_.scale_ = scale;
+}
+
+void GameObject::SetScale(float x, float y, float z)
+{
+	SetScale(XMFLOAT3(x, y, z));
 }
