@@ -20,16 +20,16 @@ void Player::Initialize()
 	this->transform_.scale_.y = 0.5;
 	this->transform_.scale_.z = 0.5;
 
-	Instantiate<Oden>(this);
-	GameObject *pCO2 =Instantiate<Oden>(this);
-	pCO2->SetPosition(-1.5f,1.4f,0.0f);
+	//Instantiate<Oden>(this);
+	//GameObject *pCO2 =Instantiate<Oden>(this);
+	//pCO2->SetPosition(-1.5f,1.4f,0.0f);
 }
 
 void Player::Update()
 {
 	transform_.rotate_.y++;
-	if (transform_.rotate_.y > 600)
-		KillMe();
+	/*if (transform_.rotate_.y > 600)
+		KillMe();*/
 
 	if (Input::IsKey(DIK_RIGHT))
 	{
@@ -39,7 +39,11 @@ void Player::Update()
 	{
 		transform_.position_.x -= 0.5f;
 	}
-	//KillMe();
+	if (Input::IsKeyUp(DIK_SPACE))
+	{
+ 		GameObject* pBullet = Instantiate<Oden>(pParent_);
+		pBullet->SetPosition(transform_.position_);
+	}
 }
 
 void Player::Draw()
@@ -49,6 +53,6 @@ void Player::Draw()
 
 void Player::Release()
 {
-	pFbx->Release();
-	delete pFbx;
+	/*pFbx->Release();
+	delete pFbx;           ìÒèdçÌèúÇ…Ç»ÇÈÇÃÇ≈ReleaseSubÇ…Ç‹Ç©ÇπÇÈ*/
 }

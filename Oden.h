@@ -8,6 +8,7 @@ class Oden :
 	public GameObject
 {
 	Fbx* pFbx;
+	int hModel_; //モデル番号
 
 public:
 	//コンストラクタ
