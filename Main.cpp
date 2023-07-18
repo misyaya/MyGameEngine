@@ -85,17 +85,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 
 	Camera::Initialize(winW, winH);
 
-	
-	if (FAILED(hr))
-	{
-		//エラー処理
-		MessageBox(nullptr, "Quadの呼び出しに失敗しました", "エラー", MB_OK);
-		PostQuitMessage(0); //プログラム終了
-	}
-
-	pRootJob = new RootJob;
+	pRootJob = new RootJob(nullptr);
 	pRootJob->Initialize();
-
+	
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
