@@ -89,3 +89,41 @@ void GameObject::SetScale(float x, float y, float z)
 {
 	SetScale(XMFLOAT3(x, y, z));
 }
+
+GameObject* GameObject::FindChildObject(string _objName)
+{
+	if (_objName == this->objectName_)
+	{
+		return(this); //自分が_objNameのオブジェクトだった！
+	}
+	else
+	{
+		//for (auto itr = childList_.begin(); itr != childList_.end(); itr++)
+		for(auto itr:childList_) //↑と同じ意味
+		{
+			GameObject* obj = itr->FindChildObject(_objName);
+			if (obj != nullptr)
+				return obj;
+		}
+	}
+	return nullptr;
+}
+
+/// <summary>
+/// 再起呼び出しでRootJobを探してそのアドレスを返す関数
+/// </summary>
+/// <returns>RootJobのアドレス(GameObject * 型)</returns>
+GameObject* GameObject::GetRootJob()
+{
+	//親がいるか確認
+	if (pParent_ == nullptr)
+		return this;
+	
+	//いたらその親の親を調べる
+	return pParent_->GetRootJob();
+}
+
+GameObject* GameObject::FindObject(string _objName)
+{
+	return GetRootJob()->FindChildObject(_objName);
+}

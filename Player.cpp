@@ -39,7 +39,7 @@ void Player::Update()
 	{
 		transform_.position_.x -= 0.5f;
 	}
-	if (Input::IsKeyUp(DIK_SPACE))
+	if (Input::IsKeyDown(DIK_SPACE))
 	{
  		GameObject* pBullet = Instantiate<Oden>(pParent_);
 		pBullet->SetPosition(transform_.position_);
