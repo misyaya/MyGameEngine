@@ -8,6 +8,8 @@
 using std::string;
 using std::list;
 
+class SphereCollider;
+
 class GameObject
 {
 protected:
@@ -15,7 +17,9 @@ protected:
 	Transform	transform_;
 	GameObject*	pParent_;
 	string		objectName_;
+	SphereCollider* pCollider_;
 	bool IsDead_;
+
 public:
 	GameObject();
 	GameObject(GameObject* parent, const std::string& name);
@@ -42,6 +46,11 @@ public:
 	GameObject* FindChildObject(string _objName);
 	GameObject* GetRootJob();
 	GameObject* FindObject(string _objName);
+	void AddCollider(SphereCollider* pCollider);
+	void Collision(GameObject* pTarget);
+	void RoundRobin(GameObject* pTarget);
+
+	virtual void OnCollision(GameObject* pTaregt){}
 
 public:
 	//テンプレートの定義
