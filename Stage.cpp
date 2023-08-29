@@ -14,7 +14,7 @@ Stage::Stage(GameObject* parent)
     {
         for (int z = 0; z < ZSIZE; z++)
         {
-            table[x][z] = -1;
+            table_[x][z] = -1;
         }
     }
 }
@@ -45,9 +45,9 @@ void Stage::Initialize()
   
     //tableにブロックのタイプをセットしてやろう！
 
-    for (int x = 0; x < XSIZE; x++)
+    for (int z = 0; z < ZSIZE; z++)
     {
-        for (int z = 0; z < ZSIZE; z++)
+        for (int x = 0; x < XSIZE; x++)
         {
             table_[x][z] = x % 5;
         }
@@ -71,7 +71,7 @@ void Stage::Draw()
             blockTrans.position_.x = x;
             blockTrans.position_.z = z;
 
-            Model::SetTransform(hModel_[(x + z) %5], blockTrans);
+            Model::SetTransform(hModel_[type], blockTrans);
             Model::Draw((x + z) % 5);
 
         }
