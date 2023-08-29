@@ -2,6 +2,7 @@
 #include "Stage.h"
 #include "Engine/Input.h"
 #include "Engine/SceneManager.h"
+#include "Controller.h"
 
 
 TestScene::TestScene(GameObject* parent)
@@ -13,10 +14,13 @@ void TestScene::Initialize()
 {
 
 	Instantiate<Stage>(this);
+	Instantiate<Controller>(this);
+	
 }
 
 void TestScene::Update()
 {
+	
 }
 
 void TestScene::Draw()
