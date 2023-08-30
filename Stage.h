@@ -11,6 +11,8 @@ namespace
     {
         DEFAULT,BRICK,GRASS,SAND,WATER
     };
+
+   
 };
 
 
@@ -18,9 +20,22 @@ namespace
 class Stage : public GameObject
 {
     int hModel_[MODEL_NUM];    //モデル番号
-    int table_[XSIZE][ZSIZE];
+   // int table_[XSIZE][ZSIZE];
+
+    struct
+    {
+        int type;
+        int height;
+    }table_[XSIZE][ZSIZE];
+
+
 public:
-    void SetBlock(int _x, int _z, BLOCKTYPE _type);
+    //ブロック指定
+    void SetBlockType(int _x, int _z, BLOCKTYPE _type);
+
+    //ブロック高さ
+    void SetBlockHeight(int _x, int _z, int _height);
+
     //コンストラクタ
     Stage(GameObject* parent);
 

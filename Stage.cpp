@@ -1,6 +1,18 @@
 #include "Stage.h"
 #include "Engine/Model.h"
 
+void Stage::SetBlockType(int _x, int _z, BLOCKTYPE _type)
+{ 
+    //エラーチェック　範囲内の値かどうかしたほうがいい
+    table_[_x][_z].type = _type;
+}
+
+void Stage::SetBlockHeight(int _x, int _z, int _height)
+{
+    //エラーチェック　範囲内の値かどうかしたほうがいい
+    table_[_x][_z].height = _height;
+}
+
 //コンストラクタ
 Stage::Stage(GameObject* parent)
     :GameObject(parent, "Stage"), hModel_{-1,-1,-1,-1,-1}
@@ -14,7 +26,7 @@ Stage::Stage(GameObject* parent)
     {
         for (int z = 0; z < ZSIZE; z++)
         {
-            table_[x][z] = -1;
+            SetBlockType(x, z, DEFAULT);
         }
     }
 }
@@ -44,12 +56,12 @@ void Stage::Initialize()
     }
   
     //tableにブロックのタイプをセットしてやろう！
-
     for (int z = 0; z < ZSIZE; z++)
     {
         for (int x = 0; x < XSIZE; x++)
         {
-            table_[x][z] = x % 5;
+            SetBlockType(x, z,( BLOCKTYPE)(z%5));
+            SetBlockHeight(x, z, x % 4);
         }
     }
 }
@@ -64,16 +76,22 @@ void Stage::Draw()
 {
     Transform blockTrans;
 
-    for (int x = 0; x < 15; x++)
+    for (int x = 0; x < XSIZE; x++)
     {
-        for (int z = 0; z < 15; z++)
+        for (int z = 0; z < ZSIZE; z++)
         {
-            blockTrans.position_.x = x;
-            blockTrans.position_.z = z;
+            for (int y = 0; y < table_[x][z].height; y++)
+            {
+                blockTrans.position_.x = x;
+                blockTrans.position_.y = y;
+                blockTrans.position_.z = z;
 
-            Model::SetTransform(hModel_[type], blockTrans);
-            Model::Draw((x + z) % 5);
+                int type = table_[x][z].type;
 
+                Model::SetTransform(hModel_[type], blockTrans);
+                Model::Draw(hModel_[type]);
+                SetBlockHeight(x, z, y);
+            } 
         }
     }
 }
