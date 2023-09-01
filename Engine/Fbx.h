@@ -14,6 +14,14 @@
 
 class Texture;  //前方宣言
 
+struct RayCastData
+{
+	XMFLOAT4 start;
+	XMFLOAT4 dir;
+	bool hit;
+	double dist;
+};
+
 class Fbx
 {
 	//マテリアル
@@ -39,6 +47,9 @@ class Fbx
 	};
 
 
+	VERTEX* pVertices_;
+	int** ppIndex_;
+
 	int vertexCount_;	//頂点数
 	int polygonCount_;	//ポリゴン数
 	int materialCount_;	//マテリアルの個数
@@ -61,4 +72,6 @@ public:
 	HRESULT Load(std::string fileName);
 	void Draw(Transform& transform);
 	void Release();
+
+	void RayCast(RayCastData& rayData);
 };

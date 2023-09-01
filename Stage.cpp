@@ -56,12 +56,12 @@ void Stage::Initialize()
     }
   
     //tableにブロックのタイプをセットしてやろう！
-    for (int z = 0; z < ZSIZE; z++)
+    for (int x = 0; x < ZSIZE; x++)
     {
-        for (int x = 0; x < XSIZE; x++)
+        for (int z = 0; z < XSIZE; z++)
         {
             SetBlockType(x, z,( BLOCKTYPE)(z%5));
-            SetBlockHeight(x, z, x % 4);
+            SetBlockHeight(x, z, x % 5);
         }
     }
 }
@@ -80,7 +80,7 @@ void Stage::Draw()
     {
         for (int z = 0; z < ZSIZE; z++)
         {
-            for (int y = 0; y < table_[x][z].height; y++)
+            for (int y = 0; y < table_[x][z].height + 1; y++)
             {
                 blockTrans.position_.x = x;
                 blockTrans.position_.y = y;
@@ -90,7 +90,6 @@ void Stage::Draw()
 
                 Model::SetTransform(hModel_[type], blockTrans);
                 Model::Draw(hModel_[type]);
-                SetBlockHeight(x, z, y);
             } 
         }
     }
