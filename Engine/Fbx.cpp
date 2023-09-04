@@ -311,8 +311,8 @@ void Fbx::RayCast(RayCastData& rayData)
 			int i1 = ppIndex_[material][poly * 3 + 1];
 			int i2 = ppIndex_[material][poly * 3 + 2];
 			XMVECTOR v0 = pVertices_[i0];
-			XMVECTOR v1 = ;
-			XMVECTOR v2 = ;
+			XMVECTOR v1 = pVertices_[i1];
+			XMVECTOR v2 = pVertices_[i2];
 
 			XMVECTOR start = rayData.start;
 			XMVECTOR dir = rayData.dir;
