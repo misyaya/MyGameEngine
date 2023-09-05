@@ -8,6 +8,7 @@
 #include "Engine/Model.h"
 #include "DirectXCollision.h"
 #include "resource.h"
+#include "Stage.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -93,6 +94,20 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		PostQuitMessage(0); //プログラム終了
 	}
 
+
+	/////////// RayCast　テストコード ///////////
+	/*Fbx* pFbx = new Fbx;
+	pFbx->Load("Assets/BoxBrick.fbx");
+	RayCastData data;
+	data.start = XMFLOAT4(0, 5, 0, 0);
+	data.dir = XMFLOAT4(0, -1, 0, 0);
+
+	pFbx->RayCast(data);
+	a = 6;
+	a++;*/
+	/////////// RayCast　テストコード ///////////
+
+
 	//DirectInputの初期化
 	Input::Initialize(hWnd);
 
@@ -102,8 +117,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	pRootJob->Initialize();
 	
 
+	//ダイアログボックス作成     モードレスダイアログ
 	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc);
-
+	//DialogBox(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, (DLGPROC)DialogProc); モーダルダイアログ
 
 	//メッセージループ（何か起きるのを待つ）
 	MSG msg;
@@ -189,9 +205,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
-	//case WM_MOUSEMOVE:
-	//	Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
-	//	return 0;
+	case WM_MOUSEMOVE:
+		Input::SetMousePosition(LOWORD(lParam), HIWORD(lParam));
+		return 0;
 
 	case WM_DESTROY: //Windowを閉じたら
 		PostQuitMessage(0);  //プログラム終了(これ消すとWindowが閉じてもプログラムが動き続ける）
@@ -200,11 +216,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
+//ダイアログプロシージャ(本体)
 BOOL CALLBACK DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 {
-	switch (msg)
-	{
-
-	}
-	return FALSE;
+	Stage* pStage = (Stage*)pRootJob->FindObject("Stage");
+	return pStage->DialogProc(hDlg, msg, wp, lp);
 }

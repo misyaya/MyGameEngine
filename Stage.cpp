@@ -1,5 +1,7 @@
 #include "Stage.h"
 #include "Engine/Model.h"
+#include "resource.h"
+
 
 void Stage::SetBlockType(int _x, int _z, BLOCKTYPE _type)
 { 
@@ -98,4 +100,27 @@ void Stage::Draw()
 //開放
 void Stage::Release()
 {
+}
+
+//ダイアログプロシージャ(代理)
+BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
+{
+    switch (msg)
+    {
+    case WM_INITDIALOG:
+        //ラジオボタンの初期値
+        SendMessage(GetDlgItem(hDlg, IDC_RADIO_UP), BM_SETCHECK, BST_CHECKED, 0);
+
+        //コンボボックスの初期値
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0,((LPARAM) "デフォルト"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0,((LPARAM) "石"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0,((LPARAM) "草"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0,((LPARAM) "砂"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0,((LPARAM) "水"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_SETCURSEL, 0, 0);
+      
+
+        return TRUE;
+    }
+    return FALSE;
 }

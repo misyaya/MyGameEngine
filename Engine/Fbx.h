@@ -19,7 +19,7 @@ struct RayCastData
 	XMFLOAT4 start;
 	XMFLOAT4 dir;
 	bool hit;
-	double dist;
+	float dist;
 };
 
 class Fbx
