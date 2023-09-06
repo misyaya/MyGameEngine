@@ -42,7 +42,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	float dist;
 
 	bool result = TriangleTests::Intersects(beginP, dirVec, P1, P2, P3, dist);
-	int a;
 
 	//ウィンドウクラス（設計図）を作成
 	WNDCLASSEX wc;
@@ -103,7 +102,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	data.dir = XMFLOAT4(0, -1, 0, 0);
 
 	pFbx->RayCast(data);
-	a = 6;
+	int a = 6;
 	a++;*/
 	/////////// RayCast　テストコード ///////////
 

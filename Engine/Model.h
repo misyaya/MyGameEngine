@@ -16,5 +16,6 @@ namespace Model
 	void Draw(int hModel);
 	//‰ð•ú
 	void Release();
-
+	
+	void RayCast(int hModel, RayCastData& rayData);
 };

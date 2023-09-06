@@ -24,6 +24,7 @@ namespace Direct3D
 	};
 
 	SHADER_BUNDLE shaderBundle[ SHADER_MAX ];
+	int scrWidth, scrHeight;
 }
 
 
@@ -31,6 +32,9 @@ namespace Direct3D
 HRESULT Direct3D::Initialize(int winW, int winH, HWND hWnd)
 {
 	HRESULT hr;
+
+	scrWidth = winW;
+	scrHeight = winH;
 
 	///////////////////////////‚¢‚ë‚¢‚ë€”õ‚·‚é‚½‚ß‚Ìİ’è///////////////////////////////
 		//‚¢‚ë‚¢‚ë‚Èİ’è€–Ú‚ğ‚Ü‚Æ‚ß‚½\‘¢‘Ì

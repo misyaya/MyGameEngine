@@ -1,6 +1,7 @@
 #include "Stage.h"
 #include "Engine/Model.h"
 #include "resource.h"
+#include "Engine/Direct3D.cpp"
 
 
 void Stage::SetBlockType(int _x, int _z, BLOCKTYPE _type)
@@ -71,6 +72,39 @@ void Stage::Initialize()
 //更新
 void Stage::Update()
 {
+    float w = (float)(Direct3D::scrWidth / 2.0f);
+    float h = (float)(Direct3D::scrHeight / 2.0f);
+    //Offsetx,yは0
+    //minZ = 0, maxZ = 1
+
+    XMMATRIX vp =
+    {
+        w,  0,  0,  0,
+        0, -h,  0,  0,
+        0,  0,  1,  0,
+        w,  h,  0,  1
+    };
+    //ビューポート
+    XMMATRIX invVp =
+
+    //プロジェクション変換
+    XMMATRIX invProj =
+
+    //ビュー変換
+    XMMATRIX invView =
+
+    XMFLOAT3 mousePosFront =
+    mousePosFront.z = 0.0f;
+    XMFLOAT3 mousePosBack =
+    mousePosBack.z = 1.0f;
+
+
+    //① mousePosFrontをベクトルに変換
+    //② ①にinvVP、invPrj、invViewをかける
+    //③ mousePosBackをベクトルに変換
+    //④ ③にinvVP、invPrj、invViewをかける
+    //⑤ ②から④に向かってレイをうつ(とりあえずモデル番号はhModel_[0])
+    //⑥ レイが当たったらブレークポイントで止める
 }
 
 //描画
