@@ -1,7 +1,9 @@
 #include "Stage.h"
 #include "Engine/Model.h"
 #include "resource.h"
-#include "Engine/Direct3D.cpp"
+#include "Engine/Direct3D.h"
+#include "Engine/Input.h"
+#include "Engine/Camera.h"
 
 
 void Stage::SetBlockType(int _x, int _z, BLOCKTYPE _type)
@@ -72,6 +74,11 @@ void Stage::Initialize()
 //更新
 void Stage::Update()
 {
+    if (!Input::IsMouseButtonDown(0))
+    {
+        return;
+    }
+
     float w = (float)(Direct3D::scrWidth / 2.0f);
     float h = (float)(Direct3D::scrHeight / 2.0f);
     //Offsetx,yは0
@@ -85,26 +92,57 @@ void Stage::Update()
         w,  h,  0,  1
     };
     //ビューポート
-    XMMATRIX invVp =
+    XMMATRIX invVP = XMMatrixInverse(nullptr, vp);
 
     //プロジェクション変換
-    XMMATRIX invProj =
+    XMMATRIX invProj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix());
 
     //ビュー変換
-    XMMATRIX invView =
+    XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());
 
-    XMFLOAT3 mousePosFront =
-    mousePosFront.z = 0.0f;
-    XMFLOAT3 mousePosBack =
+    XMFLOAT3 mousePosFront = Input::GetMousePosition();
+    mousePosFront.z = 1.0f;
+    XMFLOAT3 mousePosBack = Input::GetMousePosition();
     mousePosBack.z = 1.0f;
 
 
     //① mousePosFrontをベクトルに変換
+    XMVECTOR vMouseFront = XMLoadFloat3(&mousePosFront);
     //② ①にinvVP、invPrj、invViewをかける
+    vMouseFront = XMVector3TransformCoord(vMouseFront, invVP * invProj*invView);
     //③ mousePosBackをベクトルに変換
+    XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);
     //④ ③にinvVP、invPrj、invViewをかける
-    //⑤ ②から④に向かってレイをうつ(とりあえずモデル番号はhModel_[0])
-    //⑥ レイが当たったらブレークポイントで止める
+    vMouseFront = XMVector3TransformCoord(vMouseFront, invVP * invProj * invView);
+
+    for (int x = 0; x < 15; x++)
+    {
+        for (int z = 0; z < 15; z++)
+        {
+            for (int y = 0; y < table_[x][z].height + 1; y++)
+            {
+                //⑤ ②から④に向かってレイをうつ(とりあえずモデル番号はhModel_[0])
+                RayCastData data;
+                XMStoreFloat4(&data.start, vMouseFront );
+                XMStoreFloat4(&data.dir, vMouseBack - vMouseFront);
+
+                Transform trans;
+
+                Model::SetTransform(hModel_[0], trans);
+
+                Model::RayCast(hModel_[0], data);
+
+                //⑥ レイが当たったらブレークポイントで止める
+                if (data.hit)
+                {
+                    break;
+                }
+            }
+
+        }
+    }
+    
+    
 }
 
 //描画

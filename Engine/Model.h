@@ -9,13 +9,22 @@
 //-----------------------------------------------------------
 namespace Model
 {
-	//読み込み
+	//モデル情報
+	struct ModelData
+	{
+		//FBX名
+		Fbx* pfbx_;
+		Transform transform_; //トランスフォーム
+		std::string filename_; //ファイル名
+	};
+
+
+	//モデルのポインタをぶち込んでおくベクタ
+	std::vector<ModelData*>modelList;
 	int Load(std::string fileName);
 	void SetTransform(int hModel, Transform transform);
-	//描画
 	void Draw(int hModel);
-	//解放
 	void Release();
-	
 	void RayCast(int hModel, RayCastData& rayData);
+
 };
