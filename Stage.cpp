@@ -1,10 +1,10 @@
 #include "Stage.h"
-#include "Engine/Model.h"
+
 #include "resource.h"
 #include "Engine/Direct3D.h"
 #include "Engine/Input.h"
 #include "Engine/Camera.h"
-
+#include "Engine/Model.h"
 
 void Stage::SetBlockType(int _x, int _z, BLOCKTYPE _type)
 { 
@@ -74,10 +74,7 @@ void Stage::Initialize()
 //更新
 void Stage::Update()
 {
-    if (!Input::IsMouseButtonDown(0))
-    {
-        return;
-    }
+
 
     float w = (float)(Direct3D::scrWidth / 2.0f);
     float h = (float)(Direct3D::scrHeight / 2.0f);
@@ -114,7 +111,10 @@ void Stage::Update()
     XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);
     //④ ③にinvVP、invPrj、invViewをかける
     vMouseFront = XMVector3TransformCoord(vMouseFront, invVP * invProj * invView);
-
+    if (!Input::IsMouseButtonDown(0))
+    {
+        return;
+    }
     for (int x = 0; x < 15; x++)
     {
         for (int z = 0; z < 15; z++)
@@ -135,6 +135,7 @@ void Stage::Update()
                 //⑥ レイが当たったらブレークポイントで止める
                 if (data.hit)
                 {
+                    table_[x][z].height++;
                     break;
                 }
             }

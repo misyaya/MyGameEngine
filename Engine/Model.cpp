@@ -1,4 +1,10 @@
-﻿#include "Model.h"
+﻿#include "Direct3D.h"
+#include<vector>
+#include "Model.h"
+
+namespace Model {
+	std::vector<ModelData*>modelList;
+}
 
 int Model::Load(std::string fileName)
 {
@@ -85,6 +91,7 @@ void Model::RayCast(int hModel, RayCastData& rayData)
 	//③rayData,startをモデル空間に変換(①をかける)
 	XMVECTOR vstart = XMLoadFloat4(&rayData.start);
 	vstart = XMVector3TransformCoord(vstart, wInv); //transformcoordはｗ要素を無視してくれるらしい
+	XMStoreFloat4(&rayData.start, vpass);
 	//④(視点から方向ベクトルをちょい伸ばした先)通過点(②)に①をかける
 	vpass = XMVector3TransformCoord(vpass, wInv);
 	//⑤rayData.dirを③から④に向かうベクトルにする(引き算)

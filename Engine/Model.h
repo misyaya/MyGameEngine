@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
-#include <vector>
 #include "Fbx.h"
-#include "Transform.h"
 
 //-----------------------------------------------------------
 //3Dモデル（FBXファイル）を管理する
@@ -20,7 +18,7 @@ namespace Model
 
 
 	//モデルのポインタをぶち込んでおくベクタ
-	std::vector<ModelData*>modelList;
+	
 	int Load(std::string fileName);
 	void SetTransform(int hModel, Transform transform);
 	void Draw(int hModel);

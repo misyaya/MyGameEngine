@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include "Transform.h"
-#include "Direct3D.h"
+
 
 
 #pragma comment(lib, "LibFbxSDK-MD.lib")

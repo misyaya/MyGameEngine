@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include <assert.h>
 #include "DirectXCollision.h"
+#include "Direct3D.h"
 
 Fbx::Fbx():
 	vertexCount_(0),polygonCount_(0),materialCount_(0),pVertexBuffer_(nullptr),pIndexBuffer_(0),pConstantBuffer_(nullptr),pMaterialList_(nullptr)
