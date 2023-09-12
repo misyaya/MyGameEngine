@@ -65,8 +65,8 @@ void Stage::Initialize()
     {
         for (int z = 0; z < XSIZE; z++)
         {
-            SetBlockType(x, z,( BLOCKTYPE)(z%5));
-            SetBlockHeight(x, z, x % 5);
+            SetBlockType(x, z,( BLOCKTYPE)(0));
+            SetBlockHeight(x, z, 0);
         }
     }
 }
@@ -74,7 +74,10 @@ void Stage::Initialize()
 //XV
 void Stage::Update()
 {
-
+    if (!Input::IsMouseButtonDown(0))
+    {
+        return;
+    }
 
     float w = (float)(Direct3D::scrWidth / 2.0f);
     float h = (float)(Direct3D::scrHeight / 2.0f);
@@ -98,7 +101,7 @@ void Stage::Update()
     XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());
 
     XMFLOAT3 mousePosFront = Input::GetMousePosition();
-    mousePosFront.z = 1.0f;
+    mousePosFront.z = 0.0f;
     XMFLOAT3 mousePosBack = Input::GetMousePosition();
     mousePosBack.z = 1.0f;
 
@@ -106,15 +109,12 @@ void Stage::Update()
     //‡@ mousePosFront‚ðƒxƒNƒgƒ‹‚É•ÏŠ·
     XMVECTOR vMouseFront = XMLoadFloat3(&mousePosFront);
     //‡A ‡@‚ÉinvVPAinvPrjAinvView‚ð‚©‚¯‚é
-    vMouseFront = XMVector3TransformCoord(vMouseFront, invVP * invProj*invView);
+    vMouseFront = XMVector3TransformCoord(vMouseFront, invVP * invProj * invView);
     //‡B mousePosBack‚ðƒxƒNƒgƒ‹‚É•ÏŠ·
     XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);
     //‡C ‡B‚ÉinvVPAinvPrjAinvView‚ð‚©‚¯‚é
-    vMouseFront = XMVector3TransformCoord(vMouseFront, invVP * invProj * invView);
-    if (!Input::IsMouseButtonDown(0))
-    {
-        return;
-    }
+    vMouseBack = XMVector3TransformCoord(vMouseFront, invVP * invProj * invView);
+ 
     for (int x = 0; x < 15; x++)
     {
         for (int z = 0; z < 15; z++)
@@ -127,6 +127,9 @@ void Stage::Update()
                 XMStoreFloat4(&data.dir, vMouseBack - vMouseFront);
 
                 Transform trans;
+                trans.position_.x = x;
+                trans.position_.y = y;
+                trans.position_.z = z;
 
                 Model::SetTransform(hModel_[0], trans);
 
