@@ -113,7 +113,7 @@ void Stage::Update()
     //③ mousePosBackをベクトルに変換
     XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);
     //④ ③にinvVP、invPrj、invViewをかける
-    vMouseBack = XMVector3TransformCoord(vMouseFront, invVP * invProj * invView);
+    vMouseBack = XMVector3TransformCoord(vMouseBack, invVP * invProj * invView);
  
     for (int x = 0; x < 15; x++)
     {

@@ -303,7 +303,7 @@ void Fbx::Release()
 
 void Fbx::RayCast(RayCastData& rayData)
 {
-	for (int material = 0; material < materialCount_; material)
+	for (int material = 0; material < materialCount_; material++)
 	{
 		for (int poly = 0; poly < indexCount_[material] / 3; poly++)
 		{
