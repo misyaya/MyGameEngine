@@ -5,6 +5,13 @@
 #include "Engine/Input.h"
 #include "Engine/Camera.h"
 #include "Engine/Model.h"
+#include <iostream>
+#include <Windows.h>
+#include <fstream>
+using std::cout;
+using std::cin;
+using std::endl;
+using std::ofstream;
 
 void Stage::SetBlockType(int _x, int _z, BLOCKTYPE _type)
 { 
@@ -174,9 +181,54 @@ void Stage::Draw()
          
                 Model::SetTransform(hModel_[type], blockTrans);
                 Model::Draw(hModel_[type]);
+
+                Save(table_[x][z].type, table_[x][z].height);
             } 
         }
     }
+}
+
+int Stage::Save(int _type, int _height)
+{
+
+    ofstream ofs("save.txt", std::ios::out); //ファイル名, オープンモード
+    if (ofs.fail())
+    {
+        cout << "失敗しちゃった" << endl;
+        return -1;
+    }
+
+    ofs << _type << "," << _height << ",";
+    cout << "データを書き込みました。" << endl;
+
+    ofs.close();
+
+
+  /*  std::ifstream ifs("data.txt", std::ios::in);
+
+    if (ifs.fail())
+    {
+        std::cout << "ファイルが開けませんでした。" << std::endl;
+        return 0;
+    }*/
+    
+    //HANDLE hFile;        //ファイルのハンドル
+    //hFile = CreateFile(
+    //    "stage.txt",                 //ファイル名
+    //    GENERIC_WRITE,           //アクセスモード（書き込み用）
+    //    0,                      //共有（なし）
+    //    NULL,                   //セキュリティ属性（継承しない）
+    //    OPEN_ALWAYS,           //作成方法
+    //    FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
+    //    NULL);                  //拡張属性（なし）
+
+    //DWORD dwBytes = 0;  //書き込み位置
+    //WriteFile(
+    //    hFile,                   //ファイルハンドル
+    //    ,                  //保存するデータ（文字列）
+    //    (DWORD)strlen(●●●),   //書き込む文字数
+    //    &dwBytes,                //書き込んだサイズを入れる変数
+    //    NULL);                   //オーバーラップド構造体（今回は使わない）
 }
 
 //開放
