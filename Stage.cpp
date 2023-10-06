@@ -181,54 +181,32 @@ void Stage::Draw()
          
                 Model::SetTransform(hModel_[type], blockTrans);
                 Model::Draw(hModel_[type]);
-
-                Save(table_[x][z].type, table_[x][z].height);
             } 
         }
     }
 }
 
-int Stage::Save(int _type, int _height)
+void Stage::Save()
 {
+    char fileName[MAX_PATH] = "無題.map";  //ファイル名を入れる変数
 
-    ofstream ofs("save.txt", std::ios::out); //ファイル名, オープンモード
-    if (ofs.fail())
-    {
-        cout << "失敗しちゃった" << endl;
-        return -1;
-    }
+    //「ファイルを保存」ダイアログの設定
+    OPENFILENAME ofn;                         	//名前をつけて保存ダイアログの設定用構造体
+    ZeroMemory(&ofn, sizeof(ofn));            	//構造体初期化
+    ofn.lStructSize = sizeof(OPENFILENAME);   	//構造体のサイズ
+    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")        //─┬ファイルの種類
+        TEXT("すべてのファイル(*.*)\0*.*\0\0");     //─┘
+    ofn.lpstrFile = fileName;               	//ファイル名
+    ofn.nMaxFile = MAX_PATH;               	//パスの最大文字数
+    ofn.Flags = OFN_OVERWRITEPROMPT;   		//フラグ（同名ファイルが存在したら上書き確認）
+    ofn.lpstrDefExt = "map";                  	//デフォルト拡張子
 
-    ofs << _type << "," << _height << ",";
-    cout << "データを書き込みました。" << endl;
+    //「ファイルを保存」ダイアログ
+    BOOL selFile;
+    selFile = GetSaveFileName(&ofn);
 
-    ofs.close();
-
-
-  /*  std::ifstream ifs("data.txt", std::ios::in);
-
-    if (ifs.fail())
-    {
-        std::cout << "ファイルが開けませんでした。" << std::endl;
-        return 0;
-    }*/
-    
-    //HANDLE hFile;        //ファイルのハンドル
-    //hFile = CreateFile(
-    //    "stage.txt",                 //ファイル名
-    //    GENERIC_WRITE,           //アクセスモード（書き込み用）
-    //    0,                      //共有（なし）
-    //    NULL,                   //セキュリティ属性（継承しない）
-    //    OPEN_ALWAYS,           //作成方法
-    //    FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
-    //    NULL);                  //拡張属性（なし）
-
-    //DWORD dwBytes = 0;  //書き込み位置
-    //WriteFile(
-    //    hFile,                   //ファイルハンドル
-    //    ,                  //保存するデータ（文字列）
-    //    (DWORD)strlen(●●●),   //書き込む文字数
-    //    &dwBytes,                //書き込んだサイズを入れる変数
-    //    NULL);                   //オーバーラップド構造体（今回は使わない）
+    //キャンセルしたら中断
+    if (selFile == FALSE) return;
 }
 
 //開放

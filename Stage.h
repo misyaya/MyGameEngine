@@ -55,7 +55,7 @@ public:
     void Draw() override;
 
     //セーブ
-    int Save(int _type, int _height);
+    void Save();
 
     //開放
     void Release() override;
