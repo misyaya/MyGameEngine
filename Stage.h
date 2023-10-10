@@ -54,10 +54,10 @@ public:
     //描画
     void Draw() override;
 
-    //セーブ
-    void Save();
-
     //開放
     void Release() override;
     BOOL DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp);
+
+    //セーブ
+    void Save();
 };
