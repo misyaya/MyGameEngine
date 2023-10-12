@@ -217,6 +217,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case ID_MENU_SAVE:
 			OutputDebugString("save FILE");
+			((Stage*)pRootJob->FindObject("Stage"))->Save();
 			//ファイル保存ダイアログで名前を決める
 			//決めたファイル名でセーブ実行
 			return 0;

@@ -278,18 +278,30 @@ void Stage::Save()
         FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
         NULL);                  //拡張属性（なし）
 
-    std::ostringstream oss;
-    oss << "test" << 123 << std::endl;
-   
 
+    std::ostringstream oss;
+    
+
+    for (int x = 0; x < XSIZE; x++)
+    {
+        for (int z = 0; z < ZSIZE; z++)
+        {
+            oss << table_[x][z].type <<  "," << table_[x][z].height << ",";
+        }
+        oss << std::endl;
+    }
+
+    string ss = oss.str();
 
     DWORD dwBytes = 0;  //書き込み位置
     WriteFile(
         hFile,                   //ファイルハンドル
-        oss.str(),                  //保存するデータ（文字列）
-        (DWORD)strlen(●●●),   //書き込む文字数
+        ss.c_str() ,                  //保存するデータ（文字列）
+        (DWORD)strlen(ss.c_str()),   //書き込む文字数
         &dwBytes,                //書き込んだサイズを入れる変数
         NULL);                   //オーバーラップド構造体（今回は使わない）
+
+    CloseHandle(hFile);
 }
 
 
