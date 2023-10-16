@@ -52,6 +52,7 @@ Stage::~Stage()
 //初期化
 void Stage::Initialize()
 {
+
     string modelname[] = {
         "BoxDefault.fbx",
         "BoxBrick.fbx",
@@ -249,7 +250,7 @@ void Stage::Save()
     char fileName[MAX_PATH] = "無題.map";  //ファイル名を入れる変数
 
     //「ファイルを保存」ダイアログの設定
-    OPENFILENAME ofn;                         	//名前をつけて保存ダイアログの設定用構造体
+    OPENFILENAME ofn;                    	//名前をつけて保存ダイアログの設定用構造体
     ZeroMemory(&ofn, sizeof(ofn));            	//構造体初期化
     ofn.lStructSize = sizeof(OPENFILENAME);   	//構造体のサイズ
     ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")        //─┬ファイルの種類
@@ -302,6 +303,23 @@ void Stage::Save()
         NULL);                   //オーバーラップド構造体（今回は使わない）
 
     CloseHandle(hFile);
+}
+
+void Stage::Load()
+{
+    OPENFILENAME ofn;
+    char szFileName[MAX_PATH] = "";
+
+    ZeroMemory(&ofn, sizeof(OPENFILENAME));
+    ofn.lStructSize = sizeof(OPENFILENAME);
+    ofn.hwndOwner = hwnd; // 親ウィンドウのハンドル
+    ofn.lpstrFilter = "テキストファイル (*.txt)\0*.txt\0すべてのファイル (*.*)\0*.*\0";
+    ofn.lpstrFile = szFileName;
+    ofn.nMaxFile = MAX_PATH;
+    ofn.Flags = OFN_FILEMUSTEXIST;
+
+  
+    
 }
 
 
