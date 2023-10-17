@@ -214,6 +214,20 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
     case WM_COMMAND:
         if (HIWORD(wp) == BN_CLICKED)
         {
+            if (LOWORD(wp) == IDC_RESET) 
+            {
+                for (int x = 0; x < XSIZE; x++)
+                {
+                    for (int z = 0; z < ZSIZE; z++)
+                    {
+                        table_[x][z].type = 0;
+                        table_[x][z].height = 0;
+                    }
+                }
+                //MessageBox(hDlg, "ボタンがクリックされました", "メッセージ", MB_OK);
+                return (INT_PTR)TRUE;
+            }
+
             //何押したか取得
             int radioButtonId = LOWORD(wp);
 
@@ -282,12 +296,18 @@ void Stage::Save()
     std::ostringstream oss;
 
 
-    for (int x = 0; x < XSIZE; x++)
-    {
-        for (int z = 0; z < ZSIZE; z++)
-        {
-            oss << table_[x][z].type << "," << table_[x][z].height << ",";
+
+    for (int z = 0; z < ZSIZE; z++) {
+        for (int x = 0; x < XSIZE; x++) {
+            oss << table_[x][z].type << "," << table_[x][z].height;
+
+            // 最後の要素でない場合、カンマを追加
+            if (x < XSIZE - 1) {
+                oss << ",";
+            }
         }
+
+        // 各行の終わりに改行文字を追加
         oss << std::endl;
     }
 
@@ -310,46 +330,53 @@ void Stage::Load()
     char szFileName[MAX_PATH] = "";
     ZeroMemory(&ofn, sizeof(OPENFILENAME));
     ofn.lStructSize = sizeof(OPENFILENAME);
-    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")        //─┬ファイルの種類
-        TEXT("すべてのファイル(*.*)\0*.*\0\0");     //─┘
+    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")
+        TEXT("すべてのファイル(*.*)\0*.*\0\0");
     ofn.lpstrFile = szFileName;
     ofn.nMaxFile = MAX_PATH;
     ofn.Flags = OFN_FILEMUSTEXIST;
-    GetOpenFileName(&ofn);
 
-    std::ifstream file(ofn.lpstrFile);
-    if (file.is_open()) {
-        for (int x = 0, z = 0; x < XSIZE && z < ZSIZE; z++) {
+    // ファイルを選択
+    if (GetOpenFileName(&ofn)) {
+        std::ifstream file(szFileName);
+        if (file.is_open())
+        {
+            int x = 0;
+            int z = 0;
+
             std::string line;
-            if (std::getline(file, line)) {
+            while (std::getline(file, line)) {
                 std::istringstream iss(line);
                 std::string token;
                 while (std::getline(iss, token, ',')) {
-                    // 余分なスペースをトリム
-                    token.erase(std::remove_if(token.begin(), token.end(), ::isspace), token.end());
                     try {
+                        int value = std::stoi(token);
                         if (z % 2 == 0) {
-                            // 偶数の場合: 高さ
-                            table_[x][z].height = std::stoi(token);
+                            table_[x][z].height = value;
                         }
                         else {
-                            // 奇数の場合: 種類
-                            table_[x][z].type = std::stoi(token);
-                            x++;
+                            table_[x][z].type = value;
                         }
+                        x++;
                     }
                     catch (const std::invalid_argument& e) {
-                        // エラーハンドリング: 変換できない場合の処理
                         std::cerr << "エラー: 不正なデータが検出されました。" << std::endl;
-                        // ここでエラー処理を行う
+                        // エラーハンドリングを行うか、スキップするか、適切な対処を実装
                     }
                 }
-                x = 0;
-            }
-        }
-        file.close();
-    }
 
+                x = 0;
+                z++;
+            }
+
+            file.close();
+        }
+        else
+        {
+            std::cerr << "ファイルを開けませんでした。" << std::endl;
+            // エラーハンドリングを行うか、適切な対処を実装
+        }
+    }
 }
 
 
