@@ -147,12 +147,19 @@ void Stage::Update()
                 if (data.hit && mode_ == 0)
                 {
                     table_[x][z].height++;
+                    table_[x][z].type = blockType_;
 
                     break;
                 }
                 else if (data.hit && mode_ == 1 && table_[x][z].height != 0)
                 {
                     table_[x][z].height--;
+                    table_[x][z].type = blockType_;
+                    break;
+                }
+                else if (data.hit && mode_ == 2)
+                {
+                    table_[x][z].type = blockType_;
                     break;
                 }
             }
@@ -228,6 +235,7 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
                 return (INT_PTR)TRUE;
             }
 
+          
             //何押したか取得
             int radioButtonId = LOWORD(wp);
 
@@ -250,7 +258,41 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
                 break;
             }
 
+
+
             return TRUE;
+        }
+
+        if (HIWORD(wp) == CBN_SELCHANGE && LOWORD(wp) == IDC_COMBO2)
+        {
+            int selectedIndex = SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_GETCURSEL, 0, 0);
+
+            // 選択されたインデックスに基づいてオブジェクトを切り替える
+            switch (selectedIndex)
+            {
+            case 0:
+                blockType_ = 0;
+                break;
+            case 1:
+                blockType_ = 1;
+                OutputDebugString("デバッグメッセージ\n");
+                break;
+            case 2:
+                blockType_ = 2;
+                break;
+            case 3:
+                blockType_ = 3;
+                break;
+            case 4:
+                blockType_ = 4;
+                break;
+            case 5:
+                blockType_ = 5;
+                break;
+            default:
+                blockType_ = 0; // デフォルトの値
+                break;
+            }
         }
 
     }
