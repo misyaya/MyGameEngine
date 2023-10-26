@@ -1,5 +1,4 @@
 #include "Stage.h"
-
 #include "resource.h"
 #include "Engine/Direct3D.h"
 #include "Engine/Input.h"
@@ -15,7 +14,7 @@ using std::endl;
 using std::ofstream;
 
 void Stage::SetBlockType(int _x, int _z, BLOCKTYPE _type)
-{ 
+{
     //エラーチェック　範囲内の値かどうかしたほうがいい
     table_[_x][_z].type = _type;
 }
@@ -28,7 +27,7 @@ void Stage::SetBlockHeight(int _x, int _z, int _height)
 
 //コンストラクタ
 Stage::Stage(GameObject* parent)
-    :GameObject(parent, "Stage"), hModel_{-1,-1,-1,-1,-1}
+    :GameObject(parent, "Stage"), hModel_{ -1,-1,-1,-1,-1 }
 {
     for (int i = 0; i < MODEL_NUM; i++)
     {
@@ -52,6 +51,7 @@ Stage::~Stage()
 //初期化
 void Stage::Initialize()
 {
+
     string modelname[] = {
         "BoxDefault.fbx",
         "BoxBrick.fbx",
@@ -65,15 +65,15 @@ void Stage::Initialize()
     {
         //モデルデータのロード
         hModel_[i] = Model::Load(fname_base + modelname[i]);
-       assert(hModel_[i] >= 0);
+        assert(hModel_[i] >= 0);
     }
-  
+
     //tableにブロックのタイプをセットしてやろう！
     for (int x = 0; x < ZSIZE; x++)
     {
         for (int z = 0; z < XSIZE; z++)
         {
-            SetBlockType(x, z,( BLOCKTYPE)(0));
+            SetBlockType(x, z, (BLOCKTYPE)(0));
             SetBlockHeight(x, z, 0);
         }
     }
@@ -122,7 +122,7 @@ void Stage::Update()
     XMVECTOR vMouseBack = XMLoadFloat3(&mousePosBack);
     //④ ③にinvVP、invPrj、invViewをかける
     vMouseBack = XMVector3TransformCoord(vMouseBack, invVP * invProj * invView);
- 
+
     for (int x = 0; x < 15; x++)
     {
         for (int z = 0; z < 15; z++)
@@ -131,7 +131,7 @@ void Stage::Update()
             {
                 //⑤ ②から④に向かってレイをうつ(とりあえずモデル番号はhModel_[0])
                 RayCastData data;
-                XMStoreFloat4(&data.start, vMouseFront );
+                XMStoreFloat4(&data.start, vMouseFront);
                 XMStoreFloat4(&data.dir, vMouseBack - vMouseFront);
 
                 Transform trans;
@@ -144,23 +144,31 @@ void Stage::Update()
                 Model::RayCast(hModel_[0], data);
 
                 //⑥ レイが当たったらブレークポイントで止める
-                if (data.hit && mode_ == 0)
+                if (data.hit && mode_ == 0 && flag_)
                 {
                     table_[x][z].height++;
-
+                    table_[x][z].type = blockType_;
+                    flag_ = false;
                     break;
                 }
-                else if(data.hit && mode_ == 1 && table_[x][z].height != 0)
+                else if (data.hit && mode_ == 1 && table_[x][z].height != 0 && flag_)
                 {
                     table_[x][z].height--;
+                    flag_ = false;
+                    break;
+                }
+                else if (data.hit && mode_ == 2 && flag_)
+                {
+                    table_[x][z].type = blockType_;
+                    flag_ = false;
                     break;
                 }
             }
 
         }
     }
-    
-    
+
+    flag_ = true;
 }
 
 //描画
@@ -179,10 +187,10 @@ void Stage::Draw()
                 blockTrans.position_.z = z;
 
                 int type = table_[x][z].type;
-         
+
                 Model::SetTransform(hModel_[type], blockTrans);
                 Model::Draw(hModel_[type]);
-            } 
+            }
         }
     }
 }
@@ -202,18 +210,33 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
         SendMessage(GetDlgItem(hDlg, IDC_RADIO_UP), BM_SETCHECK, BST_CHECKED, 0);
 
         //コンボボックスの初期値
-        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0,((LPARAM) "デフォルト"));
-        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0,((LPARAM) "石"));
-        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0,((LPARAM) "草"));
-        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0,((LPARAM) "砂"));
-        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0,((LPARAM) "水"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0, ((LPARAM)"デフォルト"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0, ((LPARAM)"石"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0, ((LPARAM)"草"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0, ((LPARAM)"砂"));
+        SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_ADDSTRING, 0, ((LPARAM)"水"));
         SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_SETCURSEL, 0, 0);
-      
+
         return TRUE;
 
     case WM_COMMAND:
         if (HIWORD(wp) == BN_CLICKED)
         {
+            if (LOWORD(wp) == IDC_RESET) 
+            {
+                for (int x = 0; x < XSIZE; x++)
+                {
+                    for (int z = 0; z < ZSIZE; z++)
+                    {
+                        table_[x][z].type = 0;
+                        table_[x][z].height = 0;
+                    }
+                }
+                //MessageBox(hDlg, "ボタンがクリックされました", "メッセージ", MB_OK);
+                return (INT_PTR)TRUE;
+            }
+
+          
             //何押したか取得
             int radioButtonId = LOWORD(wp);
 
@@ -236,7 +259,41 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
                 break;
             }
 
+
+
             return TRUE;
+        }
+
+        if (HIWORD(wp) == CBN_SELCHANGE && LOWORD(wp) == IDC_COMBO2)
+        {
+            int selectedIndex = SendMessage(GetDlgItem(hDlg, IDC_COMBO2), CB_GETCURSEL, 0, 0);
+
+            // 選択されたインデックスに基づいてオブジェクトを切り替える
+            switch (selectedIndex)
+            {
+            case 0:
+                blockType_ = 0;
+                break;
+            case 1:
+                blockType_ = 1;
+                OutputDebugString("デバッグメッセージ\n");
+                break;
+            case 2:
+                blockType_ = 2;
+                break;
+            case 3:
+                blockType_ = 3;
+                break;
+            case 4:
+                blockType_ = 4;
+                break;
+            case 5:
+                blockType_ = 5;
+                break;
+            default:
+                blockType_ = 0; // デフォルトの値
+                break;
+            }
         }
 
     }
@@ -244,64 +301,255 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 }
 
 
+//void Stage::Save()
+//{
+//    char fileName[MAX_PATH] = "無題.map";  //ファイル名を入れる変数
+//
+//    //「ファイルを保存」ダイアログの設定
+//    OPENFILENAME ofn;                    	//名前をつけて保存ダイアログの設定用構造体
+//    ZeroMemory(&ofn, sizeof(ofn));            	//構造体初期化
+//    ofn.lStructSize = sizeof(OPENFILENAME);   	//構造体のサイズ
+//    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")        //─┬ファイルの種類
+//        TEXT("すべてのファイル(*.*)\0*.*\0\0");     //─┘
+//    ofn.lpstrFile = fileName;               	//ファイル名
+//    ofn.nMaxFile = MAX_PATH;               	//パスの最大文字数
+//    ofn.Flags = OFN_OVERWRITEPROMPT;   		//フラグ（同名ファイルが存在したら上書き確認）
+//    ofn.lpstrDefExt = "map";                  	//デフォルト拡張子
+//
+//    //「ファイルを保存」ダイアログ
+//    BOOL selFile;
+//    selFile = GetSaveFileName(&ofn);
+//
+//    //キャンセルしたら中断
+//    if (selFile == FALSE) return;
+//
+//
+//    //セーブのルーチン
+//    HANDLE hFile;        //ファイルのハンドル
+//    hFile = CreateFile(
+//        ofn.lpstrFile,                 //ファイル名
+//        GENERIC_WRITE,           //アクセスモード（書き込み用）
+//        0,                      //共有（なし）
+//        NULL,                   //セキュリティ属性（継承しない）
+//        OPEN_ALWAYS,           //作成方法
+//        FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
+//        NULL);                  //拡張属性（なし）
+//
+//
+//    std::ostringstream oss;
+//
+//
+//
+//    for (int z = 0; z < ZSIZE; z++)
+//    {
+//        for (int x = 0; x < XSIZE; x++)
+//        {
+//            oss << table_[x][z].type << "," << table_[x][z].height;
+//
+//            // 最後の要素でない場合、カンマを追加
+//            if (x < XSIZE - 1) {
+//                oss << ",";
+//            }
+//        }
+//
+//        // 各行の終わりに改行文字を追加
+//        oss << std::endl;
+//    }
+//
+//    string ss = oss.str();
+//
+//    DWORD dwBytes = 0;  //書き込み位置
+//    WriteFile(
+//        hFile,                   //ファイルハンドル
+//        ss.c_str(),                  //保存するデータ（文字列）
+//        (DWORD)strlen(ss.c_str()),   //書き込む文字数
+//        &dwBytes,                //書き込んだサイズを入れる変数
+//        NULL);                   //オーバーラップド構造体（今回は使わない）
+//
+//    oss.str("");
+//    CloseHandle(hFile);
+//}
+//
+//
+//void Stage::Load()
+//{
+//    OPENFILENAME ofn;
+//    char szFileName[MAX_PATH] = "";
+//    ZeroMemory(&ofn, sizeof(OPENFILENAME));
+//    ofn.lStructSize = sizeof(OPENFILENAME);
+//    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")
+//        TEXT("すべてのファイル(*.*)\0*.*\0\0");
+//    ofn.lpstrFile = szFileName;
+//    ofn.nMaxFile = MAX_PATH;
+//    ofn.Flags = OFN_FILEMUSTEXIST;
+//
+//    // ファイルを選択
+//    if (GetOpenFileName(&ofn)) {
+//        std::ifstream file(szFileName);
+//        if (file.is_open())
+//        {
+//            int z = 0;
+//
+//            std::string line;
+//            while (std::getline(file, line)) {
+//                int x = 0; // x の初期化を追加
+//                std::istringstream iss(line);
+//                std::string token;
+//                while (std::getline(iss, token, ',')) {
+//                    try {
+//                        int value = std::stoi(token);
+//                        if (x < XSIZE && z < ZSIZE) {
+//                            if (z % 2 == 0) {
+//                                table_[x][z].height = value;
+//                            }
+//                            else {
+//                                table_[x][z].type = value;
+//                            }
+//                            x++; // x をインクリメント
+//                        }
+//                    }
+//                    catch (const std::invalid_argument& e) {
+//                        std::cerr << "エラー: 不正なデータが検出されました。" << std::endl;
+//                        // エラーハンドリングを行うか、スキップするか、適切な対処を実装
+//                    }
+//                }
+//
+//                z++;
+//            }
+//
+//            file.close();
+//        }
+//        else
+//        {
+//            std::cerr << "ファイルを開けませんでした。" << std::endl;
+//            // エラーハンドリングを行うか、適切な対処を実装
+//        }
+//    }
+//}
+//
+//
+//
+//
+//
+//
+
+// セーブ
 void Stage::Save()
 {
-    char fileName[MAX_PATH] = "無題.map";  //ファイル名を入れる変数
+    char szFileName[MAX_PATH] = "";
 
-    //「ファイルを保存」ダイアログの設定
-    OPENFILENAME ofn;                         	//名前をつけて保存ダイアログの設定用構造体
-    ZeroMemory(&ofn, sizeof(ofn));            	//構造体初期化
-    ofn.lStructSize = sizeof(OPENFILENAME);   	//構造体のサイズ
-    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")        //─┬ファイルの種類
-        TEXT("すべてのファイル(*.*)\0*.*\0\0");     //─┘
-    ofn.lpstrFile = fileName;               	//ファイル名
-    ofn.nMaxFile = MAX_PATH;               	//パスの最大文字数
-    ofn.Flags = OFN_OVERWRITEPROMPT;   		//フラグ（同名ファイルが存在したら上書き確認）
-    ofn.lpstrDefExt = "map";                  	//デフォルト拡張子
+    OPENFILENAME ofn;
+    ZeroMemory(&ofn, sizeof(OPENFILENAME));
+    ofn.lStructSize = sizeof(OPENFILENAME);
+    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")
+        TEXT("すべてのファイル(*.*)\0*.*\0\0");
+    ofn.lpstrFile = szFileName;
+    ofn.nMaxFile = MAX_PATH;
+    ofn.Flags = OFN_OVERWRITEPROMPT;
 
-    //「ファイルを保存」ダイアログ
-    BOOL selFile;
-    selFile = GetSaveFileName(&ofn);
+    // ファイル名を指定してセーブダイアログを表示
+    if (GetSaveFileName(&ofn)) {
+        // ファイル名を szFileName から取得
+        std::string fileName = szFileName;
 
-    //キャンセルしたら中断
-    if (selFile == FALSE) return;
+        // ファイルをオープン
+        HANDLE hFile;
+        hFile = CreateFile(
+            fileName.c_str(),              // ファイル名を使用
+            GENERIC_WRITE,                 // アクセスモード（書き込み用）
+            0,                             // 共有（なし）
+            NULL,                          // セキュリティ属性（継承しない）
+            CREATE_ALWAYS,                 // 作成方法（常に新規作成）
+            FILE_ATTRIBUTE_NORMAL,          // 属性とフラグ（設定なし）
+            NULL);                         // 拡張属性（なし）
 
+        std::ostringstream oss;
 
-    //セーブのルーチン
-    HANDLE hFile;        //ファイルのハンドル
-    hFile = CreateFile(
-        ofn.lpstrFile,                 //ファイル名
-        GENERIC_WRITE,           //アクセスモード（書き込み用）
-        0,                      //共有（なし）
-        NULL,                   //セキュリティ属性（継承しない）
-        OPEN_ALWAYS,           //作成方法
-        FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
-        NULL);                  //拡張属性（なし）
+        // ファイルにデータを保存
+        for (int z = 0; z < ZSIZE; z++) {
+            for (int x = 0; x < XSIZE; x++) {
+                oss << table_[x][z].type << "," << table_[x][z].height;
 
+                // 最後の要素でない場合、カンマを追加
+                if (x < XSIZE - 1) {
+                    oss << ",";
+                }
+            }
 
-    std::ostringstream oss;
-    
-
-    for (int x = 0; x < XSIZE; x++)
-    {
-        for (int z = 0; z < ZSIZE; z++)
-        {
-            oss << table_[x][z].type <<  "," << table_[x][z].height << ",";
+            // 各行の終わりに改行文字を追加
+            oss << std::endl;
         }
-        oss << std::endl;
+
+        std::string data = oss.str();
+        DWORD dwBytesWritten = 0;
+
+        WriteFile(
+            hFile,
+            data.c_str(),
+            (DWORD)data.size(),
+            &dwBytesWritten,
+            NULL);
+
+        oss.str("");
+        CloseHandle(hFile);
     }
-
-    string ss = oss.str();
-
-    DWORD dwBytes = 0;  //書き込み位置
-    WriteFile(
-        hFile,                   //ファイルハンドル
-        ss.c_str() ,                  //保存するデータ（文字列）
-        (DWORD)strlen(ss.c_str()),   //書き込む文字数
-        &dwBytes,                //書き込んだサイズを入れる変数
-        NULL);                   //オーバーラップド構造体（今回は使わない）
-
-    CloseHandle(hFile);
 }
+
+// ロード
+void Stage::Load()
+{
+    char szFileName[MAX_PATH] = "";
+
+    OPENFILENAME ofn;
+    ZeroMemory(&ofn, sizeof(OPENFILENAME));
+    ofn.lStructSize = sizeof(OPENFILENAME);
+    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")
+        TEXT("すべてのファイル(*.*)\0*.*\0\0");
+    ofn.lpstrFile = szFileName;
+    ofn.nMaxFile = MAX_PATH;
+    ofn.Flags = OFN_FILEMUSTEXIST;
+
+    // ファイルを選択
+    if (GetOpenFileName(&ofn)) {
+        std::ifstream file(szFileName);
+        if (file.is_open()) {
+            int z = 0;
+
+            std::string line;
+            while (std::getline(file, line)) {
+                int x = 0; // x の初期化を追加
+                std::istringstream iss(line);
+                std::string token;
+                while (std::getline(iss, token, ',')) {
+                    try {
+                        int value = std::stoi(token);
+                        if (x < XSIZE && z < ZSIZE) {
+                            if (z % 2 == 0) {
+                                table_[x][z].height = value;
+                            }
+                            else {
+                                table_[x][z].type = value;
+                            }
+                            x++; // x をインクリメント
+                        }
+                    }
+                    catch (const std::invalid_argument& e) {
+                        std::cerr << "エラー: 不正なデータが検出されました。" << std::endl;
+                        // エラーハンドリングを行うか、スキップするか、適切な対処を実装
+                    }
+                }
+
+                z++;
+            }
+
+            file.close();
+        }
+        else {
+            std::cerr << "ファイルを開けませんでした。" << std::endl;
+            // エラーハンドリングを行うか、適切な対処を実装
+        }
+    }
+}
+
 
 
