@@ -33,6 +33,8 @@ class Stage : public GameObject
     int select_; //種類
 
     int blockType_;
+
+    bool flag_ = true;
     
 public:
     //ブロック指定
