@@ -517,11 +517,10 @@ void Stage::Load()
 
             std::string line;
             while (std::getline(file, line)) {
-                int x = 0; // x の初期化を追加
+                int x = 0;
                 std::istringstream iss(line);
                 std::string token;
                 while (std::getline(iss, token, ',')) {
-                    try {
                         int value = std::stoi(token);
                         if (x < XSIZE && z < ZSIZE) {
                             if (z % 2 == 0) {
@@ -530,23 +529,15 @@ void Stage::Load()
                             else {
                                 table_[x][z].type = value;
                             }
-                            x++; // x をインクリメント
+                            x++;
                         }
-                    }
-                    catch (const std::invalid_argument& e) {
-                        std::cerr << "エラー: 不正なデータが検出されました。" << std::endl;
-                        // エラーハンドリングを行うか、スキップするか、適切な対処を実装
-                    }
                 }
-
                 z++;
             }
-
             file.close();
         }
         else {
             std::cerr << "ファイルを開けませんでした。" << std::endl;
-            // エラーハンドリングを行うか、適切な対処を実装
         }
     }
 }
