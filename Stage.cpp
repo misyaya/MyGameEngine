@@ -51,7 +51,6 @@ Stage::~Stage()
 //èâä˙âª
 void Stage::Initialize()
 {
-
     string modelname[] = {
         "BoxDefault.fbx",
         "BoxBrick.fbx",
@@ -242,6 +241,7 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
                 {
                     for (int z = 0; z < ZSIZE; z++)
                     {
+                        table_[x][z].type = blockType_;
                         table_[x][z].height = table_[x][z].height + 1;
                     }
                 }
@@ -255,7 +255,8 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
                 {
                     for (int z = 0; z < ZSIZE; z++)
                     {
-                        if (table_[x][z].height > 0 ) {
+                        if (table_[x][z].height > 0 )
+                        {
                             table_[x][z].height = table_[x][z].height - 1;
                         }
                         
