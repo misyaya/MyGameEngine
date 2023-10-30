@@ -222,7 +222,7 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
     case WM_COMMAND:
         if (HIWORD(wp) == BN_CLICKED)
         {
-            if (LOWORD(wp) == IDC_RESET) 
+            if (LOWORD(wp) == IDC_BUTTON_RESET) 
             {
                 for (int x = 0; x < XSIZE; x++)
                 {
@@ -236,7 +236,35 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
                 return (INT_PTR)TRUE;
             }
 
+            if (LOWORD(wp) == IDC_BUTTON_UP)
+            {
+                for (int x = 0; x < XSIZE; x++)
+                {
+                    for (int z = 0; z < ZSIZE; z++)
+                    {
+                        table_[x][z].height = table_[x][z].height + 1;
+                    }
+                }
+                //MessageBox(hDlg, "ボタンがクリックされました", "メッセージ", MB_OK);
+                return (INT_PTR)TRUE;
+            }
           
+            if (LOWORD(wp) == IDC_BUTTON_DOWN)
+            {
+                for (int x = 0; x < XSIZE; x++)
+                {
+                    for (int z = 0; z < ZSIZE; z++)
+                    {
+                        if (table_[x][z].height > 0 ) {
+                            table_[x][z].height = table_[x][z].height - 1;
+                        }
+                        
+                    }
+                }
+                //MessageBox(hDlg, "ボタンがクリックされました", "メッセージ", MB_OK);
+                return (INT_PTR)TRUE;
+            }
+
             //何押したか取得
             int radioButtonId = LOWORD(wp);
 
@@ -276,7 +304,7 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
                 break;
             case 1:
                 blockType_ = 1;
-                OutputDebugString("デバッグメッセージ\n");
+  
                 break;
             case 2:
                 blockType_ = 2;
