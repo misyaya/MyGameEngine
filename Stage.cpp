@@ -330,138 +330,6 @@ BOOL Stage::DialogProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 }
 
 
-//void Stage::Save()
-//{
-//    char fileName[MAX_PATH] = "無題.map";  //ファイル名を入れる変数
-//
-//    //「ファイルを保存」ダイアログの設定
-//    OPENFILENAME ofn;                    	//名前をつけて保存ダイアログの設定用構造体
-//    ZeroMemory(&ofn, sizeof(ofn));            	//構造体初期化
-//    ofn.lStructSize = sizeof(OPENFILENAME);   	//構造体のサイズ
-//    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")        //─┬ファイルの種類
-//        TEXT("すべてのファイル(*.*)\0*.*\0\0");     //─┘
-//    ofn.lpstrFile = fileName;               	//ファイル名
-//    ofn.nMaxFile = MAX_PATH;               	//パスの最大文字数
-//    ofn.Flags = OFN_OVERWRITEPROMPT;   		//フラグ（同名ファイルが存在したら上書き確認）
-//    ofn.lpstrDefExt = "map";                  	//デフォルト拡張子
-//
-//    //「ファイルを保存」ダイアログ
-//    BOOL selFile;
-//    selFile = GetSaveFileName(&ofn);
-//
-//    //キャンセルしたら中断
-//    if (selFile == FALSE) return;
-//
-//
-//    //セーブのルーチン
-//    HANDLE hFile;        //ファイルのハンドル
-//    hFile = CreateFile(
-//        ofn.lpstrFile,                 //ファイル名
-//        GENERIC_WRITE,           //アクセスモード（書き込み用）
-//        0,                      //共有（なし）
-//        NULL,                   //セキュリティ属性（継承しない）
-//        OPEN_ALWAYS,           //作成方法
-//        FILE_ATTRIBUTE_NORMAL,  //属性とフラグ（設定なし）
-//        NULL);                  //拡張属性（なし）
-//
-//
-//    std::ostringstream oss;
-//
-//
-//
-//    for (int z = 0; z < ZSIZE; z++)
-//    {
-//        for (int x = 0; x < XSIZE; x++)
-//        {
-//            oss << table_[x][z].type << "," << table_[x][z].height;
-//
-//            // 最後の要素でない場合、カンマを追加
-//            if (x < XSIZE - 1) {
-//                oss << ",";
-//            }
-//        }
-//
-//        // 各行の終わりに改行文字を追加
-//        oss << std::endl;
-//    }
-//
-//    string ss = oss.str();
-//
-//    DWORD dwBytes = 0;  //書き込み位置
-//    WriteFile(
-//        hFile,                   //ファイルハンドル
-//        ss.c_str(),                  //保存するデータ（文字列）
-//        (DWORD)strlen(ss.c_str()),   //書き込む文字数
-//        &dwBytes,                //書き込んだサイズを入れる変数
-//        NULL);                   //オーバーラップド構造体（今回は使わない）
-//
-//    oss.str("");
-//    CloseHandle(hFile);
-//}
-//
-//
-//void Stage::Load()
-//{
-//    OPENFILENAME ofn;
-//    char szFileName[MAX_PATH] = "";
-//    ZeroMemory(&ofn, sizeof(OPENFILENAME));
-//    ofn.lStructSize = sizeof(OPENFILENAME);
-//    ofn.lpstrFilter = TEXT("マップデータ(*.map)\0*.map\0")
-//        TEXT("すべてのファイル(*.*)\0*.*\0\0");
-//    ofn.lpstrFile = szFileName;
-//    ofn.nMaxFile = MAX_PATH;
-//    ofn.Flags = OFN_FILEMUSTEXIST;
-//
-//    // ファイルを選択
-//    if (GetOpenFileName(&ofn)) {
-//        std::ifstream file(szFileName);
-//        if (file.is_open())
-//        {
-//            int z = 0;
-//
-//            std::string line;
-//            while (std::getline(file, line)) {
-//                int x = 0; // x の初期化を追加
-//                std::istringstream iss(line);
-//                std::string token;
-//                while (std::getline(iss, token, ',')) {
-//                    try {
-//                        int value = std::stoi(token);
-//                        if (x < XSIZE && z < ZSIZE) {
-//                            if (z % 2 == 0) {
-//                                table_[x][z].height = value;
-//                            }
-//                            else {
-//                                table_[x][z].type = value;
-//                            }
-//                            x++; // x をインクリメント
-//                        }
-//                    }
-//                    catch (const std::invalid_argument& e) {
-//                        std::cerr << "エラー: 不正なデータが検出されました。" << std::endl;
-//                        // エラーハンドリングを行うか、スキップするか、適切な対処を実装
-//                    }
-//                }
-//
-//                z++;
-//            }
-//
-//            file.close();
-//        }
-//        else
-//        {
-//            std::cerr << "ファイルを開けませんでした。" << std::endl;
-//            // エラーハンドリングを行うか、適切な対処を実装
-//        }
-//    }
-//}
-//
-//
-//
-//
-//
-//
-
 // セーブ
 void Stage::Save()
 {
@@ -482,47 +350,27 @@ void Stage::Save()
         std::string fileName = szFileName;
 
         // ファイルをオープン
-        HANDLE hFile;
-        hFile = CreateFile(
-            fileName.c_str(),              // ファイル名を使用
-            GENERIC_WRITE,                 // アクセスモード（書き込み用）
-            0,                             // 共有（なし）
-            NULL,                          // セキュリティ属性（継承しない）
-            CREATE_ALWAYS,                 // 作成方法（常に新規作成）
-            FILE_ATTRIBUTE_NORMAL,          // 属性とフラグ（設定なし）
-            NULL);                         // 拡張属性（なし）
+        std::ofstream file(fileName);
+        if (file.is_open()) {
+            for (int z = 0; z < ZSIZE; z++) {
+                for (int x = 0; x < XSIZE; x++) {
+                    file << table_[x][z].type << "," << table_[x][z].height;
 
-        std::ostringstream oss;
-
-        // ファイルにデータを保存
-        for (int z = 0; z < ZSIZE; z++) {
-            for (int x = 0; x < XSIZE; x++) {
-                oss << table_[x][z].type << "," << table_[x][z].height;
-
-                // 最後の要素でない場合、カンマを追加
-                if (x < XSIZE - 1) {
-                    oss << ",";
+                    // 最後の要素でない場合、カンマを追加
+                    if (x < XSIZE - 1) {
+                        file << ",";
+                    }
                 }
+                file << std::endl; // 各行の終わりに改行文字を追加
             }
-
-            // 各行の終わりに改行文字を追加
-            oss << std::endl;
+            file.close();
         }
-
-        std::string data = oss.str();
-        DWORD dwBytesWritten = 0;
-
-        WriteFile(
-            hFile,
-            data.c_str(),
-            (DWORD)data.size(),
-            &dwBytesWritten,
-            NULL);
-
-        oss.str("");
-        CloseHandle(hFile);
+        else {
+            std::cerr << "ファイルを開けませんでした。" << std::endl;
+        }
     }
 }
+
 
 // ロード
 void Stage::Load()
@@ -550,16 +398,16 @@ void Stage::Load()
                 std::istringstream iss(line);
                 std::string token;
                 while (std::getline(iss, token, ',')) {
-                        int value = std::stoi(token);
-                        if (x < XSIZE && z < ZSIZE) {
-                            if (z % 2 == 0) {
-                                table_[x][z].height = value;
-                            }
-                            else {
-                                table_[x][z].type = value;
-                            }
-                            x++;
+                    int value = std::stoi(token);
+                    if (x < XSIZE && z < ZSIZE) {
+                        if (z % 2 == 0) {
+                            table_[x][z].height = value;
                         }
+                        else {
+                            table_[x][z].type = value;
+                        }
+                        x++;
+                    }
                 }
                 z++;
             }
@@ -570,6 +418,3 @@ void Stage::Load()
         }
     }
 }
-
-
-
