@@ -372,7 +372,6 @@ void Stage::Save()
 }
 
 
-// ロード
 void Stage::Load()
 {
     char szFileName[MAX_PATH] = "";
@@ -390,31 +389,20 @@ void Stage::Load()
     if (GetOpenFileName(&ofn)) {
         std::ifstream file(szFileName);
         if (file.is_open()) {
-            int z = 0;
-
-            std::string line;
-            while (std::getline(file, line)) {
-                int x = 0;
-                std::istringstream iss(line);
-                std::string token;
-                while (std::getline(iss, token, ',')) {
-                    int value = std::stoi(token);
-                    if (x < XSIZE && z < ZSIZE) {
-                        if (z % 2 == 0) {
-                            table_[x][z].height = value;
-                        }
-                        else {
-                            table_[x][z].type = value;
-                        }
-                        x++;
+            int readData[2][12];
+            for (int x = 0; x < XSIZE; x++) {
+                for (int z = 0; z < ZSIZE; z++) {
+                    file >> readData[x][z];
+                    if ( < 11) {
+                        char comma;
+                        file >> comma;
                     }
                 }
-                z++;
             }
             file.close();
         }
-        else {
-            std::cerr << "ファイルを開けませんでした。" << std::endl;
-        }
+
     }
 }
+
+
