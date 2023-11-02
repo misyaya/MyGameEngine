@@ -29,6 +29,11 @@ class Stage : public GameObject
         int height;
     }table_[XSIZE][ZSIZE];
 
+    struct Cell {
+        int type;
+        int height;
+    };
+
     int mode_;    //0:’n–Êã‚°‚é 1:‰º‚°‚é  2:í—Ş‚ğ•Ï‚¦‚é
     int select_; //í—Ş
 

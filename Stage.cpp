@@ -352,13 +352,12 @@ void Stage::Save()
         // ファイルをオープン
         std::ofstream file(fileName);
         if (file.is_open()) {
-            for (int z = 0; z < ZSIZE; z++) {
-                for (int x = 0; x < XSIZE; x++) {
-                    file << table_[x][z].type << "," << table_[x][z].height;
+            for (int x = 0; x < ZSIZE; x++) {
+                for (int z = 0; z < XSIZE; z++) {
                     file << table_[x][z].type << "," << table_[x][z].height;
 
                     // 最後の要素でない場合、カンマを追加
-                    if (x < XSIZE - 1) {
+                    if (z < XSIZE - 1) {
                         file << ",";
                     }
                 }
@@ -374,6 +373,7 @@ void Stage::Save()
 
 
 
+// ロード
 void Stage::Load()
 {
     char szFileName[MAX_PATH] = "";
@@ -387,29 +387,22 @@ void Stage::Load()
     ofn.nMaxFile = MAX_PATH;
     ofn.Flags = OFN_FILEMUSTEXIST;
 
-    // ファイルを選択
+    // ファイルを選択するダイアログを表示
     if (GetOpenFileName(&ofn)) {
-        std::ifstream file(szFileName);
-        if (file.is_open()) 
-        {
-            for (int x = 0; x < XSIZE; ++x)
-            {
-                for (int z = 0; z < ZSIZE; ++z) 
-                {
-                    std::string token;
-                    if (std::getline(file, token, ',')) 
-                    {
-                        int value = std::stoi(token);
-                        table_[x][z].type = value;
-                        if (z % 2 == 1) 
-                        {
-                            if (std::getline(file, token, ',')) 
-                            {
-                                table_[x][z].height = std::stoi(token);
-                            }
-                            x++;
-                        }
-                    }
+        // ファイル名を szFileName から取得
+        std::string fileName = szFileName;
+
+        // ファイルをオープン
+        std::ifstream file(fileName);
+        if (file.is_open()) {
+            for (int z = 0; z < ZSIZE; z++) {
+                for (int x = 0; x < XSIZE; x++) {
+                    int type, height;
+                    char comma; // コンマ用の変数
+                    file >> type >> comma >> height;
+
+                    table_[x][z].type = type;
+                    table_[x][z].height = height;
                 }
             }
             file.close();
@@ -418,5 +411,5 @@ void Stage::Load()
             std::cerr << "ファイルを開けませんでした。" << std::endl;
         }
     }
-}
 
+}
