@@ -355,6 +355,7 @@ void Stage::Save()
             for (int z = 0; z < ZSIZE; z++) {
                 for (int x = 0; x < XSIZE; x++) {
                     file << table_[x][z].type << "," << table_[x][z].height;
+                    file << table_[x][z].type << "," << table_[x][z].height;
 
                     // 最後の要素でない場合、カンマを追加
                     if (x < XSIZE - 1) {
@@ -370,6 +371,7 @@ void Stage::Save()
         }
     }
 }
+
 
 
 void Stage::Load()
@@ -388,21 +390,33 @@ void Stage::Load()
     // ファイルを選択
     if (GetOpenFileName(&ofn)) {
         std::ifstream file(szFileName);
-        if (file.is_open()) {
-            int readData[2][12];
-            for (int x = 0; x < XSIZE; x++) {
-                for (int z = 0; z < ZSIZE; z++) {
-                    file >> readData[x][z];
-                    if ( < 11) {
-                        char comma;
-                        file >> comma;
+        if (file.is_open()) 
+        {
+            for (int x = 0; x < XSIZE; ++x)
+            {
+                for (int z = 0; z < ZSIZE; ++z) 
+                {
+                    std::string token;
+                    if (std::getline(file, token, ',')) 
+                    {
+                        int value = std::stoi(token);
+                        table_[x][z].type = value;
+                        if (z % 2 == 1) 
+                        {
+                            if (std::getline(file, token, ',')) 
+                            {
+                                table_[x][z].height = std::stoi(token);
+                            }
+                            x++;
+                        }
                     }
                 }
             }
             file.close();
         }
-
+        else {
+            std::cerr << "ファイルを開けませんでした。" << std::endl;
+        }
     }
 }
-
 
